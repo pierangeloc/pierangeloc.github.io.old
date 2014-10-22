@@ -4,7 +4,7 @@
   <title><![CDATA[Pierangelo's bakery]]></title>
   <link href="http://pierangeloc.github.io/atom.xml" rel="self"/>
   <link href="http://pierangeloc.github.io/"/>
-  <updated>2014-10-22T23:53:15+02:00</updated>
+  <updated>2014-10-22T23:56:27+02:00</updated>
   <id>http://pierangeloc.github.io/</id>
   <author>
     <name><![CDATA[Pierangelo Cecchetto]]></name>
@@ -18,7 +18,7 @@
     <link href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/"/>
     <updated>2014-10-22T21:37:45+02:00</updated>
     <id>http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam</id>
-    <content type="html"><![CDATA[<p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification examl.
+    <content type="html"><![CDATA[<p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
 Even if you probably have been using Java for many years, Java certification offers an opportunity to discover details about the language and its features.
 In the following notes I am collecting a few points that I found at least not obvious, either because I never had the chance to look into them before, or because they showed some peculiar behavior worth keeping in mind. The following notes refer to Java 7.</p>
 
@@ -64,7 +64,8 @@ This can be easily understood through an example</p>
 </span><span class="line"><span class="kd">class</span> <span class="nc">FirstException</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
 </span><span class="line"><span class="kd">class</span> <span class="nc">SecondException</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method must just declare <code>throws ExceptionB, ExceptionA</code>. If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
+<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method must just declare <code>throws ExceptionB, ExceptionA</code>.<br />
+If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
