@@ -110,7 +110,7 @@ In the following notes I am collecting a few points that I found at least not ob
 <h4 id="precise-rethrow">Precise rethrow</h4>
 <p>This is a feature that has been introduced in the Java 7 compiler, and it can be expressed in this way:<br />
 <em>When rethrowing an exception, the rethrown type doesn’t have necessarily to be of the same type declared in the <code>catch</code> block. If e.g. the <code>try</code> block can throw exceptions of type <code>E1</code>, <code>E2</code>, <code>E3</code> all subtypes of <code>E</code> which is the type in the <code>catch</code> clause, the rethrowing action is aware of being restricted to types <code>E1</code>, <code>E2</code>, <code>E3</code> and not necessarily to <code>E</code>.</em><br />
-This can be easily understood through an example</p>
+This can be easily better explained through an example</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -130,26 +130,28 @@ This can be easily understood through an example</p>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
 <span class="line-number">18</span>
+<span class="line-number">19</span>
 </pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PreciseRethrow</span> <span class="o">{</span>
 </span><span class="line">
-</span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rethrowException</span><span class="o">(</span><span class="n">String</span> <span class="n">exceptionOrdinal</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SecondException</span><span class="o">,</span> <span class="n">FirstException</span> <span class="o">{</span>
+</span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rethrowException</span><span class="o">(</span><span class="n">String</span> <span class="n">exceptionOrdinal</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExceptionB</span><span class="o">,</span> <span class="n">ExceptionA</span> <span class="o">{</span>
 </span><span class="line">        <span class="k">try</span> <span class="o">{</span>
 </span><span class="line">            <span class="k">if</span><span class="o">(</span><span class="n">exceptionOrdinal</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;first&quot;</span><span class="o">))</span>
-</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">FirstException</span><span class="o">();</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionA</span><span class="o">();</span>
 </span><span class="line">            <span class="k">else</span>
-</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">SecondException</span><span class="o">();</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionB</span><span class="o">();</span>
 </span><span class="line">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 </span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class="line">            <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
 </span><span class="line">        <span class="o">}</span>
 </span><span class="line">    <span class="o">}</span>
 </span><span class="line">
 </span><span class="line"><span class="o">}</span>
 </span><span class="line">
-</span><span class="line"><span class="kd">class</span> <span class="nc">FirstException</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
-</span><span class="line"><span class="kd">class</span> <span class="nc">SecondException</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionA</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionB</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method must just declare <code>throws ExceptionB, ExceptionA</code>.<br />
+<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method can declare <code>throws ExceptionB, ExceptionA</code> instead of <code>throws Exception</code>.<br />
 If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -164,7 +166,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
 </span><span class="line">        <span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>this nice behavior of the compiler ceases to occur.</p>
+<p>this nice behavior of the compiler ceases to occur, so it will produce a compilation error.</p>
 
 <hr />
 </div>
