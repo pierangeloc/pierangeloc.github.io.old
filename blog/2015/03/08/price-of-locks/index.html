@@ -22,7 +22,7 @@ MathJax.Hub.Config({
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Pierangelo&#8217;s bakery</title>
+  <title>Parallelizing Costs - Pierangelo&#8217;s bakery</title>
   <meta name="author" content="Pierangelo Cecchetto">
 
   
@@ -36,7 +36,7 @@ Studying for the OCP exam offers a nice opportunity to dive into one of the most
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://pierangeloc.github.io">
+  <link rel="canonical" href="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Pierangelo's bakery" type="application/atom+xml">
@@ -83,15 +83,12 @@ Studying for the OCP exam offers a nice opportunity to dive into one of the most
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/03/08/price-of-locks/">Parallelizing Costs</a></h1>
+      <h1 class="entry-title">Parallelizing Costs</h1>
     
     
       <p class="meta">
@@ -102,15 +99,15 @@ Studying for the OCP exam offers a nice opportunity to dive into one of the most
 
 <time class='entry-date' datetime='2015-03-08T10:27:37+01:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:27 am</span></time>
         
-           | <a href="/blog/2015/03/08/price-of-locks/#disqus_thread"
-             data-disqus-identifier="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://pierangeloc.github.io">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h4 id="why-learning-concurrency">Why learning concurrency</h4>
+<div class="entry-content"><h4 id="why-learning-concurrency">Why learning concurrency</h4>
 <p>Studying for the OCP exam offers a nice opportunity to dive into one of the most important (and sometimes overlooked) aspects of the Java language and JVM: threads and concurrency frameworks.
 Before I never delved into the details about concurrency just because I have been working on a container (like Tomcat) or on a framework (like Apache Camel) that takes care of distributing load on a thread pool, and basically every request or every message processing can in 99% of cases be treated as a synchronous process, so I survived for many years without having a good understanding of how concurrency works in Java.</p>
 
@@ -425,115 +422,58 @@ Let’s first outline the different approaches used, then we will go through the
 
 <p>Among the parallelized approaches, the one that proved to work best is the Fork/Join, but in order to apply it we had to change the approach and get to adding the elements of an array.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Pierangelo Cecchetto</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-03-08T10:27:37+01:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/concurrency/'>concurrency</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/threads/'>threads</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some Notes About Java Certification Exam</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-22T21:37:45+02:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:37 pm</span></time>
-        
-           | <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/#disqus_thread"
-             data-disqus-identifier="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
-Even if you probably have been using Java for many years, Java certification offers an opportunity to discover details about the language and its features.
-In the following notes I am collecting a few points that I found at least not obvious, either because I never had the chance to look into them before, or because they showed some peculiar behavior worth keeping in mind. The following notes refer to Java 7.</p>
-
-<h4 id="precise-rethrow">Precise rethrow</h4>
-<p>This is a feature that has been introduced in the Java 7 compiler, and it can be expressed in this way:<br />
-<em>When rethrowing an exception, the rethrown type doesn’t have necessarily to be of the same type declared in the <code>catch</code> block. If e.g. the <code>try</code> block can throw exceptions of type <code>E1</code>, <code>E2</code>, <code>E3</code> all subtypes of <code>E</code> which is the type in the <code>catch</code> clause, the rethrowing action is aware of being restricted to types <code>E1</code>, <code>E2</code>, <code>E3</code> and not necessarily to <code>E</code>.</em><br />
-This can be easily better explained through an example</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-<span class="line-number">18</span>
-<span class="line-number">19</span>
-</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PreciseRethrow</span> <span class="o">{</span>
-</span><span class="line">
-</span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rethrowException</span><span class="o">(</span><span class="n">String</span> <span class="n">exceptionOrdinal</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExceptionB</span><span class="o">,</span> <span class="n">ExceptionA</span> <span class="o">{</span>
-</span><span class="line">        <span class="k">try</span> <span class="o">{</span>
-</span><span class="line">            <span class="k">if</span><span class="o">(</span><span class="n">exceptionOrdinal</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;first&quot;</span><span class="o">))</span>
-</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionA</span><span class="o">();</span>
-</span><span class="line">            <span class="k">else</span>
-</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionB</span><span class="o">();</span>
-</span><span class="line">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
-</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
-</span><span class="line">        <span class="o">}</span>
-</span><span class="line">    <span class="o">}</span>
-</span><span class="line">
-</span><span class="line"><span class="o">}</span>
-</span><span class="line">
-</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionA</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
-</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionB</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method can declare <code>throws ExceptionB, ExceptionA</code> instead of <code>throws Exception</code>.<br />
-If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
-</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
-</span><span class="line">        <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>this nice behavior of the compiler ceases to occur, so it will produce a compilation error.</p>
-
-<hr />
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/" data-via="pierangelocecc" data-counturl="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/22/some-notes-about-java-certification-exam/" title="Previous Post: Some notes about Java Certification exam">&laquo; Some notes about Java Certification exam</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -558,6 +498,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -572,7 +513,10 @@ If the exception being rethrown is copied to a variable local to the <code>catch
       var disqus_shortname = 'pierangelosbakery';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/';
+        var disqus_url = 'http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
