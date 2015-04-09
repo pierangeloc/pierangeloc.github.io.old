@@ -1,28 +1,11 @@
 
-
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  jax: ["input/TeX", "output/HTML-CSS"],
-  tex2jax: {
-    inlineMath: [ ['$', '$'] ],
-    displayMath: [ ['$$', '$$']],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  messageStyle: "none",
-  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-});
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
-
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Some Notes About Java Certification Exam - Pierangelo Cecchetto</title>
+  <title>Some notes about Java Certification exam - Pierangelo Cecchetto</title>
   <meta name="author" content="Pierangelo Cecchetto">
 
   
@@ -35,19 +18,43 @@ MathJax.Hub.Config({
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam">
+  <link rel="canonical" href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Pierangelo Cecchetto" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Pierangelo Cecchetto" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,http://drz.ac/javascripts/MathJaxLocal.js">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],
+    tex2jax:
+        {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+            displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            processEscapes: true
+        },
+    TeX:
+        {
+            equationNumbers: { autoNumber: "AMS" },
+            TagSide: "left",
 
+        },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+</script>
   
+
+
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-60511380-1']);
@@ -61,15 +68,15 @@ MathJax.Hub.Config({
   </script>
 
 
+
+
 </head>
-
-
 
 <body   >
   <header role="banner"><hgroup>
   <h1><a href="/">Pierangelo Cecchetto</a></h1>
   
-    <h2>yet another blog about software</h2>
+    <h2>yet another blog about software (and baking)</h2>
   
 </hgroup>
 
@@ -108,10 +115,16 @@ MathJax.Hub.Config({
 
 
 
-<time class='entry-date' datetime='2014-10-22T21:37:45+02:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:37 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-10-22T21:37:45+02:00" pubdate data-updated="true"></time>
         
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://pierangeloc.github.io">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
@@ -199,7 +212,14 @@ If the exception being rethrown is copied to a variable local to the <code>catch
 
 
 
-<time class='entry-date' datetime='2014-10-22T21:37:45+02:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:37 pm</span></time>
+
+
+
+
+  
+
+
+<time datetime="2014-10-22T21:37:45+02:00" pubdate data-updated="true"></time>
       
 
 
@@ -207,7 +227,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" data-via="pierangelocecc" data-counturl="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" data-via="pierangelocecc" data-counturl="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" >Tweet</a>
   
   
   
@@ -240,11 +260,15 @@ If the exception being rethrown is copied to a variable local to the <code>catch
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/03/08/price-of-locks/">Parallelizing Costs</a>
+        <a href="/blog/2015/04/06/integrals-in-scala/">A simple Scala application: calculating integrals</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some Notes About Java Certification Exam</a>
+        <a href="/blog/2015/03/08/price-of-locks/">Parallelizing costs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some notes about Java Certification exam</a>
       </li>
     
   </ul>
@@ -259,7 +283,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
   <a href="https://github.com/pierangeloc">@pierangeloc</a> on GitHub
   
   <script type="text/javascript">
-    $(document).ready(function(){
+    $.domReady(function(){
         if (!window.jXHR){
             var jxhr = document.createElement('script');
             jxhr.type = 'text/javascript';
@@ -272,7 +296,8 @@ If the exception being rethrown is copied to a variable local to the <code>catch
             user: 'pierangeloc',
             count: 0,
             skip_forks: true,
-            target: '#gh_repos'
+            target: '#gh_repos',
+            blacklist: ''
         });
     });
   </script>
@@ -308,7 +333,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -319,7 +344,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id; js.async = true;
+  js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
@@ -333,7 +358,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>
