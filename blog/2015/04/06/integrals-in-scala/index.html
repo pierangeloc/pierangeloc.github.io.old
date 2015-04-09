@@ -156,7 +156,7 @@ f: A \rightarrow B
 <p>Functions in Scala are first class citizens, and they can be passed as arguments to other functions. This allows to compose things in a very straightforward way that procedural programming simply wouldn’t allow. </p>
 
 <p><div class="bogus-wrapper"><notextile>
-Consider for example calculating the integral of the cosine function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\cos(x), x \in \mathbb{R}$ as
+Consider for example calculating the integral of the $sin(x)$ function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\sin(x), x \in \mathbb{R}$ as
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="k">def</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">sin</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
