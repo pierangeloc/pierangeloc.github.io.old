@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: scala, | Pierangelo Cecchetto]]></title>
+  <title><![CDATA[Category: scala | Pierangelo Cecchetto]]></title>
   <link href="http://pierangeloc.github.io/blog/categories/scala/atom.xml" rel="self"/>
   <link href="http://pierangeloc.github.io/"/>
-  <updated>2015-04-09T08:06:48+02:00</updated>
+  <updated>2015-04-11T19:34:07+02:00</updated>
   <id>http://pierangeloc.github.io/</id>
   <author>
     <name><![CDATA[Pierangelo Cecchetto]]></name>
@@ -42,7 +42,7 @@ f: Double =&gt; Double
 <p>Functions in Scala are first class citizens, and they can be passed as arguments to other functions. This allows to compose things in a very straightforward way that procedural programming simply wouldn’t allow. </p>
 
 <p><p>
-Consider for example calculating the integral of the cosine function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\cos(x), x \in \mathbb{R}$ as</p>
+Consider for example calculating the integral of the $\sin(x)$ function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\sin(x), x \in \mathbb{R}$ as</p>
 
 <p><code>Scala
 def f: Double =&gt; Double = (x: Double) =&gt; Math.sin(x)
@@ -89,7 +89,7 @@ scala&gt; def ynPi = xnPi.map(f)
 ynPi: scala.collection.immutable.Stream[Double]
 </code></p>
 
-<p>In the context of <code>Stream</code>s we can see the map application as a transformation from the succession of $x_n$ to the succession of $f_n := f(x_n)$. 
+<p>In the context of <code>Stream</code>s we can see the map application as a transformation from the sequence of $x_n$ to the sequence of $f_n := f(x_n)$. 
 This interpretation of the <code>map</code> function applies only to sequence-like types such as Streams and Lists, but it has a very different interpretation in other types, where concepts coming from Category Theory come into place, and lead to the ideas of Monoids and Monads.</p>
 
 <p>Now the only thing left to do is add up the <code>ynPi</code> and multiply them by $\Delta x$, and this can easily be achieved through a <code>foldLeft</code> application:</p>
