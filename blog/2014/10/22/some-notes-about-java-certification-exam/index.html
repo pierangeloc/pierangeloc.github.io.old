@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Some notes about Java Certification exam - Pierangelo Cecchetto</title>
+  <meta name="author" content="Pierangelo Cecchetto">
+
+  
+  <meta name="description" content="With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Pierangelo Cecchetto" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,http://drz.ac/javascripts/MathJaxLocal.js">
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    jax: ["input/TeX","output/HTML-CSS"],
+    extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],
+    tex2jax:
+        {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+            displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            processEscapes: true
+        },
+    TeX:
+        {
+            equationNumbers: { autoNumber: "AMS" },
+            TagSide: "left",
+
+        },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+</script>
+  
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-60511380-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pierangelo Cecchetto</a></h1>
+  
+    <h2>yet another blog about software (and baking)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:pierangeloc.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Some Notes About Java Certification Exam</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-22T21:37:45+02:00" pubdate data-updated="true"></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
+Even if you probably have been using Java for many years, Java certification offers an opportunity to discover details about the language and its features.
+In the following notes I am collecting a few points that I found at least not obvious, either because I never had the chance to look into them before, or because they showed some peculiar behavior worth keeping in mind. The following notes refer to Java 7.</p>
+
+<h4 id="precise-rethrow">Precise rethrow</h4>
+<p>This is a feature that has been introduced in the Java 7 compiler, and it can be expressed in this way:<br />
+<em>When rethrowing an exception, the rethrown type doesn’t have necessarily to be of the same type declared in the <code>catch</code> block. If e.g. the <code>try</code> block can throw exceptions of type <code>E1</code>, <code>E2</code>, <code>E3</code> all subtypes of <code>E</code> which is the type in the <code>catch</code> clause, the rethrowing action is aware of being restricted to types <code>E1</code>, <code>E2</code>, <code>E3</code> and not necessarily to <code>E</code>.</em><br />
+This can be easily better explained through an example</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PreciseRethrow</span> <span class="o">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rethrowException</span><span class="o">(</span><span class="n">String</span> <span class="n">exceptionOrdinal</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExceptionB</span><span class="o">,</span> <span class="n">ExceptionA</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">            <span class="k">if</span><span class="o">(</span><span class="n">exceptionOrdinal</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;first&quot;</span><span class="o">))</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionA</span><span class="o">();</span>
+</span><span class="line">            <span class="k">else</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionB</span><span class="o">();</span>
+</span><span class="line">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionA</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionB</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method can declare <code>throws ExceptionB, ExceptionA</code> instead of <code>throws Exception</code>.<br />
+If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>this nice behavior of the compiler ceases to occur, so it will produce a compilation error.</p>
+
+<hr />
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Pierangelo Cecchetto</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-22T21:37:45+02:00" pubdate data-updated="true"></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" data-via="pierangelocecc" data-counturl="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/03/08/price-of-locks/" title="Next Post: Parallelizing costs">Parallelizing costs &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/06/integrals-in-scala/">A simple Scala application: calculating integrals</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/08/price-of-locks/">Parallelizing costs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some notes about Java Certification exam</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/pierangeloc">@pierangeloc</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'pierangeloc',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos',
+            blacklist: ''
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Pierangelo Cecchetto -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pierangelosbakery';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/';
+        var disqus_url = 'http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

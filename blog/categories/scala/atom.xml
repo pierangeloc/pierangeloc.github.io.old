@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: scala, | Pierangelo Cecchetto]]></title>
+  <link href="http://pierangeloc.github.io/blog/categories/scala/atom.xml" rel="self"/>
+  <link href="http://pierangeloc.github.io/"/>
+  <updated>2015-04-09T08:06:48+02:00</updated>
+  <id>http://pierangeloc.github.io/</id>
+  <author>
+    <name><![CDATA[Pierangelo Cecchetto]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A simple Scala application: calculating integrals]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala/"/>
+    <updated>2015-04-06T20:57:33+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala</id>
+    <content type="html"><![CDATA[<p>I embraced functional programming through Scala starting with the great Marting Odersky’s course in Coursera, following with the Reactive Programming course in Coursera (a second edition of which will start shortly and I really recommend you to sign up and follow it), and later on working with Play framework and Akka streams.</p>
+
+<p>I spent a few years programming in Java in a purely imperative way, and as soon as I could understand the functional approach, I realized it is a great way to focus on the essence of the problem, and it provides a more organic way to decompose reasoning and handling complexity.</p>
+
+<p>Of course the language itself doesn’t guarantee that the approach is functional: if you want you can write Scala almost like Java without semicolons. But despite not being purely functional and allowing mutable variables, Scala provides all the features to put in practice purely functional approach. Moreover the syntax is very similar to Java so the transition from Java, from the language point of view, is pretty smooth.</p>
+
+<p>When I have seen the first examples of functional code I appreciated the fact that it provides the language tools to model directly mathematical functions. For example a mathematical function $f$ from $A$ to $B$:
+<p></p>
+
+<p>[
+f: A \rightarrow B
+]
+</p></p>
+
+<p>is translated into a definition of a function in Scala as (the <code>???</code> mean that the function is still undefined):</p>
+
+<p><code>Scala
+scala&gt; def f: Double =&gt; Double = ???
+f: Double =&gt; Double
+</code></p>
+
+<p>Functions in Scala are first class citizens, and they can be passed as arguments to other functions. This allows to compose things in a very straightforward way that procedural programming simply wouldn’t allow. </p>
+
+<p><p>
+Consider for example calculating the integral of the cosine function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\cos(x), x \in \mathbb{R}$ as</p>
+
+<p><code>Scala
+def f: Double =&gt; Double = (x: Double) =&gt; Math.sin(x)
+</code></p>
+
+<p>or even more concisely</p>
+
+<p><code>Scala
+scala&gt; import Math.sin
+import Math.sin
+scala&gt;def f: Double =&gt; Double = sin(_)
+f: Double =&gt; Double
+</code></p>
+
+<p>Now we can pproximate the integral with a finite sum:
+[
+\int_0^{\pi}\sin(x)dx \approx \Delta x \sum_{n=0}^{N}\sin(x_n) 
+]
+with $\Delta x = \pi / N$ and $x_n = n\Delta x$.
+</p></p>
+
+<p>We know the explicit way of finding N given $\Delta x$ and $\pi$, however let’s exploit a great feature of Scala which are <code>Stream</code>s and lazy evaluation (see http://www.scala-lang.org/api/2.11.5/index.html#scala.collection.immutable.Stream).
+We can define the <code>Stream</code> of $x_n$ as a potentially unbounded sequence of doubles, with the guarantee that the next number will be generated on demand, lazily, only when required:</p>
+
+<p><code>Scala
+scala&gt; val deltaX = 0.01
+deltaX: Double = 0.01
+scala&gt; def xn = Stream.iterate(0.0)(_ + deltaX)
+xn: scala.collection.immutable.Stream[Double]
+</code></p>
+
+<p>Here we did two things: we created a <code>Stream</code>, where no value is allocated yet, all the  values of which are created on demand, and we defined it with a <code>def</code> and not with a <code>val</code> in order to save memory allocation once we consumed the stream, as we want just the $x_n$ to be produced to generate the sum and we don’t want to retain it afterwards.</p>
+
+<p>The stream <code>xn</code> defined above is potentially unbound, it represents all the sequence of <code>xn</code> obtained as <code>0, deltaX, deltaX + deltaX, deltaX + deltaX + deltaX, ...</code> but we can set easily an upper limit in this way</p>
+
+<p><code>Scala
+scala&gt; def xnPi = xn.takeWhile(_ &lt; Math.PI)
+xnPi: scala.collection.immutable.Stream[Double]
+</code>
+We can now take the values of the <code>f</code> function in each of these values simply by mapping the <code>Stream</code> of <code>xn</code> through the function:</p>
+
+<p><code>Scala
+scala&gt; def ynPi = xnPi.map(f)
+ynPi: scala.collection.immutable.Stream[Double]
+</code></p>
+
+<p>In the context of <code>Stream</code>s we can see the map application as a transformation from the succession of $x_n$ to the succession of $f_n := f(x_n)$. 
+This interpretation of the <code>map</code> function applies only to sequence-like types such as Streams and Lists, but it has a very different interpretation in other types, where concepts coming from Category Theory come into place, and lead to the ideas of Monoids and Monads.</p>
+
+<p>Now the only thing left to do is add up the <code>ynPi</code> and multiply them by $\Delta x$, and this can easily be achieved through a <code>foldLeft</code> application:</p>
+
+<p><code>Scala
+scala&gt; deltaX * ynPi.foldLeft(0.0)(_ + _)
+res1: Double = 1.9999900283082575
+</code></p>
+
+<p>So we obtained quite simply, mapping directly the theoretical concepts down to language constructs, in 5 lines of code, a value pretty close to the real one. Consider how much verbosity and focus on the implementation details it would have taken having this implemented in Java or in any case in a procedural way. With Scala and in general with a functional approach we just focus on what we want to achieve, through which transformations, instead of focusing on the processing details. In this way we produce code that is more isolated, testable, and appliable in different contexts.</p>
+]]></content>
+  </entry>
+  
+</feed>

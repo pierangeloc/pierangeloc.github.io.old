@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Pierangelo Cecchetto]]></title>
+  <link href="http://pierangeloc.github.io/atom.xml" rel="self"/>
+  <link href="http://pierangeloc.github.io/"/>
+  <updated>2015-04-09T08:06:48+02:00</updated>
+  <id>http://pierangeloc.github.io/</id>
+  <author>
+    <name><![CDATA[Pierangelo Cecchetto]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A simple Scala application: calculating integrals]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala/"/>
+    <updated>2015-04-06T20:57:33+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala</id>
+    <content type="html"><![CDATA[<p>I embraced functional programming through Scala starting with the great Marting Odersky’s course in Coursera, following with the Reactive Programming course in Coursera (a second edition of which will start shortly and I really recommend you to sign up and follow it), and later on working with Play framework and Akka streams.</p>
+
+<p>I spent a few years programming in Java in a purely imperative way, and as soon as I could understand the functional approach, I realized it is a great way to focus on the essence of the problem, and it provides a more organic way to decompose reasoning and handling complexity.</p>
+
+<p>Of course the language itself doesn’t guarantee that the approach is functional: if you want you can write Scala almost like Java without semicolons. But despite not being purely functional and allowing mutable variables, Scala provides all the features to put in practice purely functional approach. Moreover the syntax is very similar to Java so the transition from Java, from the language point of view, is pretty smooth.</p>
+
+<p>When I have seen the first examples of functional code I appreciated the fact that it provides the language tools to model directly mathematical functions. For example a mathematical function $f$ from $A$ to $B$:</p>
+<p><div class="bogus-wrapper"><notextile>
+
+\[
+f: A \rightarrow B
+\]
+</notextile></div></p>
+
+<p>is translated into a definition of a function in Scala as (the <code>???</code> mean that the function is still undefined):</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span> <span class="k">=</span> <span class="o">???</span>
+</span><span class="line"><span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Functions in Scala are first class citizens, and they can be passed as arguments to other functions. This allows to compose things in a very straightforward way that procedural programming simply wouldn’t allow. </p>
+
+<p><div class="bogus-wrapper"><notextile>
+Consider for example calculating the integral of the cosine function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\cos(x), x \in \mathbb{R}$ as
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="k">def</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">sin</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+or even more concisely
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">import</span> <span class="nn">Math.sin</span>
+</span><span class="line"><span class="k">import</span> <span class="nn">Math.sin</span>
+</span><span class="line"><span class="n">scala</span><span class="o">&gt;</span><span class="k">def</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span> <span class="k">=</span> <span class="n">sin</span><span class="o">(</span><span class="k">_</span><span class="o">)</span>
+</span><span class="line"><span class="n">f</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=&gt;</span> <span class="nc">Double</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+Now we can pproximate the integral with a finite sum:
+\[
+\int_0^{\pi}\sin(x)dx &#92;approx \Delta x \sum_{n=0}^{N}\sin(x_n) 
+\]
+with $\Delta x = \pi / N$ and $x_n = n\Delta x$.
+</notextile></div></p>
+
+<p>We know the explicit way of finding N given $\Delta x$ and $\pi$, however let’s exploit a great feature of Scala which are <code>Stream</code>s and lazy evaluation (see http://www.scala-lang.org/api/2.11.5/index.html#scala.collection.immutable.Stream).
+We can define the <code>Stream</code> of $x_n$ as a potentially unbounded sequence of doubles, with the guarantee that the next number will be generated on demand, lazily, only when required:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">deltaX</span> <span class="k">=</span> <span class="mf">0.01</span>
+</span><span class="line"><span class="n">deltaX</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">xn</span> <span class="k">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="n">iterate</span><span class="o">(</span><span class="mf">0.0</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="n">deltaX</span><span class="o">)</span>
+</span><span class="line"><span class="n">xn</span><span class="k">:</span> <span class="kt">scala.collection.immutable.Stream</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here we did two things: we created a <code>Stream</code>, where no value is allocated yet, all the  values of which are created on demand, and we defined it with a <code>def</code> and not with a <code>val</code> in order to save memory allocation once we consumed the stream, as we want just the $x_n$ to be produced to generate the sum and we don’t want to retain it afterwards.</p>
+
+<p>The stream <code>xn</code> defined above is potentially unbound, it represents all the sequence of <code>xn</code> obtained as <code>0, deltaX, deltaX + deltaX, deltaX + deltaX + deltaX, ...</code> but we can set easily an upper limit in this way</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">xnPi</span> <span class="k">=</span> <span class="n">xn</span><span class="o">.</span><span class="n">takeWhile</span><span class="o">(</span><span class="k">_</span> <span class="o">&lt;</span> <span class="nc">Math</span><span class="o">.</span><span class="nc">PI</span><span class="o">)</span>
+</span><span class="line"><span class="n">xnPi</span><span class="k">:</span> <span class="kt">scala.collection.immutable.Stream</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>We can now take the values of the <code>f</code> function in each of these values simply by mapping the <code>Stream</code> of <code>xn</code> through the function:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">ynPi</span> <span class="k">=</span> <span class="n">xnPi</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">f</span><span class="o">)</span>
+</span><span class="line"><span class="n">ynPi</span><span class="k">:</span> <span class="kt">scala.collection.immutable.Stream</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In the context of <code>Stream</code>s we can see the map application as a transformation from the succession of $x_n$ to the succession of $f_n := f(x_n)$. 
+This interpretation of the <code>map</code> function applies only to sequence-like types such as Streams and Lists, but it has a very different interpretation in other types, where concepts coming from Category Theory come into place, and lead to the ideas of Monoids and Monads.</p>
+
+<p>Now the only thing left to do is add up the <code>ynPi</code> and multiply them by $\Delta x$, and this can easily be achieved through a <code>foldLeft</code> application:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="Scala"><span class="line"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">deltaX</span> <span class="o">*</span> <span class="n">ynPi</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mf">0.0</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
+</span><span class="line"><span class="n">res1</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.9999900283082575</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>So we obtained quite simply, mapping directly the theoretical concepts down to language constructs, in 5 lines of code, a value pretty close to the real one. Consider how much verbosity and focus on the implementation details it would have taken having this implemented in Java or in any case in a procedural way. With Scala and in general with a functional approach we just focus on what we want to achieve, through which transformations, instead of focusing on the processing details. In this way we produce code that is more isolated, testable, and appliable in different contexts.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Parallelizing costs]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/"/>
+    <updated>2015-03-08T10:27:37+01:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/03/08/price-of-locks</id>
+    <content type="html"><![CDATA[<h4 id="why-learning-concurrency">Why learning concurrency</h4>
+<p>Studying for the OCP exam offers a nice opportunity to dive into one of the most important (and sometimes overlooked) aspects of the Java language and JVM: threads and concurrency frameworks.
+Before I never delved into the details about concurrency just because I have been working on a container (like Tomcat) or on a framework (like Apache Camel) that takes care of distributing load on a thread pool, and basically every request or every message processing can in 99% of cases be treated as a synchronous process, so I survived for many years without having a good understanding of how concurrency works in Java.</p>
+
+<p>Learning how threads and concurrency works is important especially if we look at how hardware is evolving. Processors speed is not increasing any more (due to physical limitations) but processors are getting <em>large</em>, i.e. the number of cores is increasing, and we must be able to make best use of them.</p>
+
+<h4 id="threads-in-java">Threads in Java</h4>
+<p>When we talk about threads a distinction must be made between a <em>thread as object</em> and a <em>thread of execution</em>. Java has supported threads since the very beginning in a native way. As everything in Java is handled as an object, threads are not an exception, and a thread is represented by the <code>java.lang.Thread</code> class. A thread of execution instead represents a call stack that is being executed on the JVM. You can visualize multiple threads running as many call stacks running independently. However threads can possibly work on the same objects in the Heap, and there are a number of mechanisms provided within the language to allow handling in a safe way these shared objects (synchronized blocks and methods, locks, read/write locks, atomic variables).
+I used to think myself that parallelizing things could lead automatically to better performance, but after diving a bit into the subject, I came across a great presentation from Martin Thompson that I really <a href="https://www.youtube.com/watch?v=4dfk3ucthN8">recommend</a>. This presentation is great for a couple of reasons, first it makes it clear that having knowledge about the general structure of the machine on  which our programs run is paramount to have efficient code. We don’t need to know all the details as if we are developing firmware code for a particular processor, but a general understanding of how modern multicore CPUs work is recommended (<em>mechanical sympathy</em>). Secondly, it conveys the important concept that having threads contending a certain resource and swapping context take time, and it might be not always convenient to parallelize. So <em>parallelize with a grain of salt</em>. </p>
+
+<h4 id="benchmark">Benchmark</h4>
+<p>To convince myself of the fact that parallelization is not necessarily good,  I used the same example suggested in the <a href="http://lmax-exchange.github.io/disruptor/files/Disruptor-1.0.pdf">Disruptor presentation</a>, a very trivial problem which is incrementing an <code>int</code> variable 10.000.000 times. The aim is to compare the performance of these approaches in dealing with this problem.
+Let’s first outline the different approaches used, then we will go through the performance results. The code can be found <a href="https://github.com/pierangeloc/java-8-playground/tree/master/src/main/java/com/pierangeloc/java8/threads">here</a></p>
+
+<h6 id="single-threaded-with-a-while-loop">Single threaded, with a while loop</h6>
+<p>This is the most trivial approach:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">i</span><span class="o">++;</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>The while loop is executed on one single thread. </p>
+
+<h6 id="single-threaded-with-a-lockunlock-within-the-loop">Single threaded, with a lock/unlock within the loop</h6>
+<p>To measure the price of a simple lock and unlock, without any other thread involved in it (no actual contention), I used this second strategy:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+</span><span class="line">    <span class="n">i</span><span class="o">++;</span>
+</span><span class="line">    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h6 id="single-threaded-with-synchronized-block-within-the-loop">Single threaded, with synchronized block within the loop</h6>
+<p>An equivalent approach to the previous one is to synchronize the whole block in the while loop</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">        <span class="n">i</span><span class="o">++;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Then we can start to really parallelize things and see how it goes. I tested this on an Intel i7 (8 cores) machine, using 4 threads</p>
+
+<h6 id="threads-without-locking-nor-synchronizing-inconsistent-results">4 threads, without locking nor synchronizing (inconsistent results)</h6>
+<p>We define a list of Callables that share the same integer holder, increasing it concurrently</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * MultiThreadedUnlockedStrategy.java</span>
+</span><span class="line"><span class="cm">*/</span>
+</span><span class="line"><span class="n">IntHolder</span> <span class="n">intHolder</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IntHolder</span><span class="o">();</span>
+</span><span class="line"><span class="n">List</span><span class="o">&lt;</span><span class="n">IntIncrementer</span><span class="o">&gt;</span> <span class="n">incrementers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</span><span class="line"><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">incrementers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">IntIncrementer</span><span class="o">(</span><span class="n">intHolder</span><span class="o">));</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">executorService</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">incrementers</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * IntIncrementer.java</span>
+</span><span class="line"><span class="cm">*/</span>
+</span><span class="line"><span class="nd">@Override</span>
+</span><span class="line"><span class="kd">public</span> <span class="n">IntHolder</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;incrementing&quot;</span><span class="o">);</span>
+</span><span class="line">    <span class="n">holder</span><span class="o">.</span><span class="na">value</span><span class="o">++;</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">holder</span><span class="o">;</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>As expected, this strategy leads to incorrect and inconsistent results, e.g. 9978258</p>
+
+<h6 id="threads-with-lockingunlocking-in-each-incrementation">4  threads, with locking/unlocking in each incrementation</h6>
+<p>The incrementation block is synchronized on the holder object</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * MultiThreadedLockedStrategy.java</span>
+</span><span class="line"><span class="cm">*/</span>
+</span><span class="line"><span class="n">IntHolder</span> <span class="n">intHolder</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">IntHolder</span><span class="o">();</span>
+</span><span class="line"><span class="n">List</span><span class="o">&lt;</span><span class="n">LockingIntIncrementer</span><span class="o">&gt;</span> <span class="n">incrementers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</span><span class="line"><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">incrementers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">LockingIntIncrementer</span><span class="o">(</span><span class="n">intHolder</span><span class="o">));</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">executorService</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">incrementers</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * LockingIntIncrementer.java</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="nd">@Override</span>
+</span><span class="line"><span class="kd">public</span> <span class="n">IntHolder</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class="line">    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">holder</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">        <span class="n">LOGGER</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;incrementing&quot;</span><span class="o">);</span>
+</span><span class="line">        <span class="n">holder</span><span class="o">.</span><span class="na">value</span><span class="o">++;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">holder</span><span class="o">;</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>This leads to consistent and correct results.</p>
+
+<h6 id="threads-with-atomicinteger">4  threads, with AtomicInteger</h6>
+<p>The incrementation block is synchronized on the holder object</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * MultiThreadedLockedStrategy.java</span>
+</span><span class="line"><span class="cm">*/</span>
+</span><span class="line"><span class="n">AtomicInteger</span> <span class="n">atomicInteger</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AtomicInteger</span><span class="o">();</span>
+</span><span class="line"><span class="n">List</span><span class="o">&lt;</span><span class="n">AtomicIntIncrementer</span><span class="o">&gt;</span> <span class="n">incrementers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</span><span class="line"><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">times</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">incrementers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nf">AtomicIntIncrementer</span><span class="o">(</span><span class="n">atomicInteger</span><span class="o">));</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="n">executorService</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">incrementers</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * AtomicIntIncrementer.java</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="kd">private</span> <span class="n">AtomicInteger</span> <span class="n">atomicInteger</span><span class="o">;</span>
+</span><span class="line">
+</span><span class="line"><span class="nd">@Override</span>
+</span><span class="line"><span class="kd">public</span> <span class="n">Integer</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class="line">    <span class="n">LOGGER</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&quot;incrementing&quot;</span><span class="o">);</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">atomicInteger</span><span class="o">.</span><span class="na">incrementAndGet</span><span class="o">();</span>
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>This strategy also leads to correct results.</p>
+
+<h6 id="threads-with-forkjoin">4  threads, with ForkJoin</h6>
+<p>The approach followed in this case has been totally different. We have constructed an array of 10.000.000 ones, and added the values through a fork/join.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * MultiThreadedLockedStrategy.java</span>
+</span><span class="line"><span class="cm">*/</span>
+</span><span class="line"><span class="kt">int</span><span class="o">[]</span> <span class="n">ones</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">times</span><span class="o">];</span>
+</span><span class="line"><span class="n">AddingTask</span> <span class="n">mainTask</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AddingTask</span><span class="o">(</span><span class="n">ones</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">ones</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">forkJoinPool</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">mainTask</span><span class="o">);</span>
+</span><span class="line">
+</span><span class="line"><span class="cm">/**</span>
+</span><span class="line"><span class="cm"> * AddingTask.java</span>
+</span><span class="line"><span class="cm"> */</span>
+</span><span class="line"><span class="kd">public</span> <span class="nf">AddingTask</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">from</span><span class="o">,</span> <span class="kt">int</span> <span class="n">to</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">;</span>
+</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">from</span> <span class="o">=</span> <span class="n">from</span><span class="o">;</span>
+</span><span class="line">        <span class="k">this</span><span class="o">.</span><span class="na">to</span> <span class="o">=</span> <span class="n">to</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="nd">@Override</span>
+</span><span class="line"><span class="kd">protected</span> <span class="n">Integer</span> <span class="nf">compute</span><span class="o">()</span> <span class="o">{</span>
+</span><span class="line">    <span class="k">if</span><span class="o">(</span><span class="n">to</span> <span class="o">-</span> <span class="n">from</span> <span class="o">&lt;=</span> <span class="n">THRESHOLD</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">to</span> <span class="o">-</span> <span class="n">from</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">to</span> <span class="o">+</span> <span class="n">from</span><span class="o">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+</span><span class="line">        <span class="n">AddingTask</span> <span class="n">left</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AddingTask</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">from</span><span class="o">,</span> <span class="n">mid</span><span class="o">);</span>
+</span><span class="line">        <span class="n">left</span><span class="o">.</span><span class="na">fork</span><span class="o">();</span>
+</span><span class="line">        <span class="n">AddingTask</span> <span class="n">right</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AddingTask</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">mid</span><span class="o">,</span> <span class="n">to</span><span class="o">);</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">rightComputationResult</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="na">compute</span><span class="o">();</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">leftComputationResult</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">leftComputationResult</span> <span class="o">+</span> <span class="n">rightComputationResult</span><span class="o">;</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line"><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>This strategy leads to correct results.</p>
+
+<h4 id="performance-analysys">Performance analysys</h4>
+<p>The following table sums up the results from the various strategies, and compares their performances</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="o">+------------------------------------+----------------+---------------------+</span>
+</span><span class="line"><span class="o">|</span> <span class="n">Strategy</span>                           <span class="o">|</span> <span class="n">Correct</span> <span class="n">result</span> <span class="o">|</span> <span class="n">Execution</span> <span class="n">time</span> <span class="o">[</span><span class="n">ms</span><span class="o">]</span> <span class="o">|</span>
+</span><span class="line"><span class="o">|------------------------------------|----------------|---------------------|</span>
+</span><span class="line"><span class="o">|</span> <span class="n">Single</span> <span class="n">Threaded</span> <span class="n">Lock</span> <span class="n">Free</span>          <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">3</span>                   <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="n">Single</span> <span class="n">Threaded</span> <span class="n">with</span> <span class="n">lock</span>          <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">197</span>                 <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="n">Single</span> <span class="n">Threaded</span> <span class="n">with</span> <span class="n">syncchronized</span> <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">237</span>                 <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="mi">4</span> <span class="n">Threads</span> <span class="n">without</span> <span class="n">lock</span>             <span class="o">|</span> <span class="n">No</span>             <span class="o">|</span> <span class="mi">25710</span>               <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="mi">4</span> <span class="n">Threads</span> <span class="n">with</span> <span class="n">lock</span>                <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">10498</span>               <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="mi">4</span> <span class="n">Threads</span> <span class="n">with</span> <span class="n">AtomicInteger</span>       <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">11121</span>               <span class="o">|</span>
+</span><span class="line"><span class="o">|</span> <span class="mi">4</span> <span class="n">Threads</span> <span class="n">with</span> <span class="n">Fork</span><span class="o">/</span><span class="n">Join</span>           <span class="o">|</span> <span class="n">Yes</span>            <span class="o">|</span> <span class="mi">1045</span>                <span class="o">|</span>
+</span><span class="line"><span class="o">+------------------------------------+----------------+---------------------+</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The problem we tried to solve here was trivial, but from this table we can se that the easiest approach is also the most efficient.</p>
+
+<p>We can also see that just introducing a locking mechanism in a single thread, so without any contention of the lock itself, makes the application about 70 times slower.</p>
+
+<p>When we start working with 4 threads sharing an object, we can see that without locking the results are inconsistent, but in any case the approach is extremely inefficient. Threads must share this object so there is a continuous context switch and update between the cores on which the threads are running.</p>
+
+<p>When we introduce the locking mechanism, results are correct and paradoxically the execution time got reduced. </p>
+
+<p>With <code>AtomicInteger</code> I was expecting a better performance than with the locking mechanism, but actually it got worse. This proves that when there is high contention on an object, also AtomicInteger is not a panacea.</p>
+
+<p>Among the parallelized approaches, the one that proved to work best is the Fork/Join, but in order to apply it we had to change the approach and get to adding the elements of an array.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some notes about Java Certification exam]]></title>
+    <link href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/"/>
+    <updated>2014-10-22T21:37:45+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam</id>
+    <content type="html"><![CDATA[<p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
+Even if you probably have been using Java for many years, Java certification offers an opportunity to discover details about the language and its features.
+In the following notes I am collecting a few points that I found at least not obvious, either because I never had the chance to look into them before, or because they showed some peculiar behavior worth keeping in mind. The following notes refer to Java 7.</p>
+
+<h4 id="precise-rethrow">Precise rethrow</h4>
+<p>This is a feature that has been introduced in the Java 7 compiler, and it can be expressed in this way:<br />
+<em>When rethrowing an exception, the rethrown type doesn’t have necessarily to be of the same type declared in the <code>catch</code> block. If e.g. the <code>try</code> block can throw exceptions of type <code>E1</code>, <code>E2</code>, <code>E3</code> all subtypes of <code>E</code> which is the type in the <code>catch</code> clause, the rethrowing action is aware of being restricted to types <code>E1</code>, <code>E2</code>, <code>E3</code> and not necessarily to <code>E</code>.</em><br />
+This can be easily better explained through an example</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PreciseRethrow</span> <span class="o">{</span>
+</span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">rethrowException</span><span class="o">(</span><span class="n">String</span> <span class="n">exceptionOrdinal</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ExceptionB</span><span class="o">,</span> <span class="n">ExceptionA</span> <span class="o">{</span>
+</span><span class="line">        <span class="k">try</span> <span class="o">{</span>
+</span><span class="line">            <span class="k">if</span><span class="o">(</span><span class="n">exceptionOrdinal</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;first&quot;</span><span class="o">))</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionA</span><span class="o">();</span>
+</span><span class="line">            <span class="k">else</span>
+</span><span class="line">                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExceptionB</span><span class="o">();</span>
+</span><span class="line">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span><span class="line">    <span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="o">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionA</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span><span class="line"><span class="kd">class</span> <span class="nc">ExceptionB</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>The compiler analyzes the code in the <code>try</code> clause and detects that only <code>FirstException</code> or <code>SecondException</code> can be thrown, therefore despite the <code>catch</code> block refers to a generic <code>Exception</code> class, it is aware that the actual exception being rethrown in the <code>throw e;</code> can either be of type <code>FirstException</code> or <code>SecondException</code>, therefore the <code>rethrowException()</code> method can declare <code>throws ExceptionB, ExceptionA</code> instead of <code>throws Exception</code>.<br />
+If the exception being rethrown is copied to a variable local to the <code>catch</code> block which is in turn rethrown, like in this version of the <code>catch</code> block</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="line">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class="line">            <span class="n">Exception</span> <span class="n">f</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+</span><span class="line">            <span class="k">throw</span> <span class="n">f</span><span class="o">;</span>
+</span><span class="line">        <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>this nice behavior of the compiler ceases to occur, so it will produce a compilation error.</p>
+
+<hr />
+]]></content>
+  </entry>
+  
+</feed>
