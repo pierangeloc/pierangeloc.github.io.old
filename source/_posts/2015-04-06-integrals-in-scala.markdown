@@ -3,7 +3,7 @@ layout: post
 title: "A simple Scala application: calculating integrals"
 date: 2015-04-06 20:57:33 +0200
 comments: true
-categories: Scala, functional-programming
+categories: [Scala, functional-programming]
 ---
 
 I embraced functional programming through Scala starting with the great Marting Odersky's course in Coursera, following with the Reactive Programming course in Coursera (a second edition of which will start shortly and I really recommend you to sign up and follow it), and later on working with Play framework and Akka streams.
@@ -30,7 +30,7 @@ f: Double => Double
 Functions in Scala are first class citizens, and they can be passed as arguments to other functions. This allows to compose things in a very straightforward way that procedural programming simply wouldn't allow. 
 
 {% verbatim tag:p %}
-Consider for example calculating the integral of the cosine function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\cos(x), x \in \mathbb{R}$ as
+Consider for example calculating the integral of the $\sin(x)$ function over the interval $[0, \pi]$, which we know from our math classes being 2. We map real numbers to their finite precision representation as Double, and we can have a Scala definition of $\sin(x), x \in \mathbb{R}$ as
 
 ```Scala
 def f: Double => Double = (x: Double) => Math.sin(x)
@@ -77,7 +77,7 @@ scala> def ynPi = xnPi.map(f)
 ynPi: scala.collection.immutable.Stream[Double]
 ```
 
-In the context of `Stream`s we can see the map application as a transformation from the succession of $x_n$ to the succession of $f_n := f(x_n)$. 
+In the context of `Stream`s we can see the map application as a transformation from the sequence of $x_n$ to the sequence of $f_n := f(x_n)$. 
 This interpretation of the `map` function applies only to sequence-like types such as Streams and Lists, but it has a very different interpretation in other types, where concepts coming from Category Theory come into place, and lead to the ideas of Monoids and Monads.
 
 Now the only thing left to do is add up the `ynPi` and multiply them by $\Delta x$, and this can easily be achieved through a `foldLeft` application:
