@@ -132,7 +132,39 @@ To make thi endpoint available to our route, the most flexible way is to create 
 </beans>
 ```
 
-Here we created an `cxf:rsServer` bean as we want it to serve requests, and specified the hostname, port, base url in a very straightforward way. The serviceClass points to the class we defined above. Again, the implementation of this class is just ignored as the real processing of the request is specified in the route, which we are about to describe. 
+Here we created an `cxf:rsServer` bean as we want it to serve requests, and specified the hostname, port, base url in a very straightforward way. The serviceClass points to the class we defined above. Again, the implementation of this class is just ignored as the real processing of the request is specified in the route, which is our next step. 
+
+####Routing
+Routes are specified in Camel by extending the abstract class  `RouteBuilder`, which provides all the Camel DSL goodness. All we have to do is implement the `configure() ` method and specify the route(s). A route has one _consumer endpoint_, representing where the processing starts from, and one or more _producer endpoints_, to represent delegation steps outside the present route.
+In our case we want to consume requests coming to our REST resource, therefore we will specify this circumstance in the `from`. A simple, dummy  implementation of this concept applied to our use case results in this initial version of our route builder, that accepts any json request and replies with a static Json response. 
+
+```Java
+
+@Component
+public class SimpleRouteBuilder extends RouteBuilder {
+
+    @Override
+    public void configure() throws Exception {
+        from("cxfrs:bean:restInventory")
+            .log(LoggingLevel.INFO, "got something!")
+            .process(
+                    new Processor() {
+                        public void process(Exchange exchange) throws Exception {
+                            exchange.getOut().setBody(
+                                    Response.ok().entity(
+                                        "{\n" +
+                                        "  \"status\": \"OK\",\n" +
+                                        "  \"message\": \"stock update received\"\n" +
+                                        "}").build());
+                    }
+                }
+            );
+    }
+}
+
+```
+
+A consumer endpoint is defined through the `from(String uri)` 
 
 
 
