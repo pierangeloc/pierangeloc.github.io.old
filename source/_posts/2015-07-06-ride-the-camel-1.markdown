@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Ride the Camel / 1"
-date: 2015-07-06 21:11:55 +0200
+title: "Getting started with Apache Camel"
+date: 2015-07-22 21:11:55 +0200
 comments: true
-categories: 
+categories: Camel, Java, Integration
 ---
 Any application that does a bit more than printing `hello world` must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become a integration nightmare. _Enterprise Integration Patterns_ (EAI) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see [http://www.enterpriseintegrationpatterns.com](http://www.enterpriseintegrationpatterns.com)). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.
 
@@ -296,7 +296,85 @@ public class SimpleRouteBuilder extends RouteBuilder {
 
 [Code check-point](https://github.com/sytac/camel-handson/commit/0f72b67e863b4f0415955938d89e9184a47fcf3b)
 
-At this point I think the philosophy behind the Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or drive routing based on conditions.
+####Adding routing logic
+In the previous example we have stored the same message both on DB and filesystem. We might think to split the incoming message based on its structure, and store e.g. some jeans related stock information on DB and the shoes related information on filesystem.
+
+For this kind of purposes an easy approach is to introduce a `when` clause where we can specify `jsonpath` expressions that our input message must match in order to be treated the way we need.
+For this exercise we will deal with shoes inventory messages that will be persisted on file:
+
+```JSON
+{
+    "shoes": [{
+                "name": "Nike AIR",
+                "description": "Running shoes",
+                "DC1": 13,
+                "DC2": 23
+            },
+            {
+                "name": "Adidas Ultra Boost",
+                "description": "Running shoes",
+                "DC1": 7,
+                "DC2": 3
+            },
+            {
+                "name": "TOD's Suede",
+                "description": "Sneakers",
+                "DC1": 3,
+                "DC2": 9
+            }
+    ]
+}
+```
+
+and jeans inventory messages that will be persisted on DB:
+
+```JSON
+{
+    "jeans": [{
+                "name": "Levi's 501",
+                "description": "Blue jeans",
+                "DC1": 32,
+                "DC2": 10
+            },
+            {
+                "name": "Diesel",
+                "description": "Blue jeans",
+                "DC1": 11,
+                "DC2": 7
+            }
+    ]
+}
+```
+
+We want also to deal with messages that do not conform to any of these 2 options, and these will end up in error files.
+
+The solution is very straightforward, it just might take a bit if you are new to jsonpath expressions:
+
+```Java
+@Component
+public class SimpleRouteBuilder extends RouteBuilder {
+
+    @Override
+    public void configure() throws Exception {
+        from("cxfrs:bean:restInventory").routeId("restInventoryRoute")
+            .choice()
+                .when().jsonpath("$[?(@.shoes)]")
+                    .to("file:///tmp/inventory?fileName=inventory-${date:now:yyyyMMdd@HHmmssSS}.json")
+                .when().jsonpath("$[?(@.jeans)]")
+                    .to("mongodb:mongoClient?database=inventory&collection=updates&operation=save")
+                .otherwise()
+                    .to("file:///tmp/inventory?fileName=error-${date:now:yyyyMMdd@HHmmssSS}.json")
+            .end()
+        .setBody(constant(new Response("Ok", "stock update received")));
+    }
+}
+```
+
+The `choice` clause allows us to specify any predicate or expression we might want to evaluate on the incoming `Exchange`, in this case as we know we are dealing with JSON body so we make direct use of the [`jsonpath`](http://goessner.net/articles/JsonPath/) construct. Camel Expression language is very rich and it might be subject of a future post. 
+[Code check-point](https://github.com/sytac/camel-handson/commit/f3e17df4b817da441550aa9eab58fed07a0ae0b6)
+
+
+At this point I think the philosophy behind the Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components and of the routing logic. Just looking at the DSL we can understand and reason about the processing steps our data follow through. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or perform testing.
 
 I will close this article with an overview of the structural foundations of Camel and recurring concepts that will appear any time you have to deal with it.
 
