@@ -5,9 +5,9 @@ date: 2015-07-22 21:11:55 +0200
 comments: true
 categories: Camel, Java, Integration
 ---
-Any application that does a bit more than printing `hello world` must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become a integration nightmare. _Enterprise Integration Patterns_ (EAI) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see [http://www.enterpriseintegrationpatterns.com](http://www.enterpriseintegrationpatterns.com)). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.
+Any application in an enterprise context, regardless how small this context might be, must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. Moreover, data typically undergo transformations, switching and routing logics before reaching other systems. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become an integration nightmare. _Enterprise Integration Patterns_ (EIP) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see [http://www.enterpriseintegrationpatterns.com](http://www.enterpriseintegrationpatterns.com)). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.
 
-[Apache Camel](http://camel.apache.org/) is a framework that implements EAIs through a very expressive DSL, so one can translate almost immediately any EAI to a corresponding expression in the DSL. Moreover, Camel provides an extensible set of components that allows you to deal with basically any system that might come at hand. A key feature of Camel is that it deals with a _normalized message format_, so after the consumption point the message has a standard format, e.g. it can be handled identically either if it comes from consuming from a JMS queue or from a SOAP or REST webservice. 
+[Apache Camel](http://camel.apache.org/) is a framework that implements EIPs through a very expressive DSL, so one can translate almost immediately any EIP to a corresponding expression in the DSL. Moreover, Camel provides an extensible set of components that allows you to deal with basically any system that might come at hand. A key feature of Camel is that it deals with a _normalized message format_, so after the consumption point the message has a standard format, e.g. it can be handled identically either if it comes from consuming from a JMS queue or from a SOAP or REST webservice. 
 
 It is easier to grasp the concepts setting up a simple Camel project and seeing these features at work.
 
@@ -52,7 +52,7 @@ First of all let's include the dependencies in our `pom.xml`:
 
 ####Embed Camel in a bootable application
 The `org.apache.camel.spring.javaconfig.CamelConfiguration` abstract class can be used as a base Spring configuration class, where we can reference all the beans we might need in the standard Spring way (xml or annotations based). The additional thing that this class does is loading a `CamelContext` and injecting any bean that extends `RouteBuilder` available in the Spring context, in the `CamelContext`. More about the `CamelContext` will follow along the article.
-To give ourselves some more flexibility we will also make use of a standard xml spring configuration.
+To give ourselves some more flexibility we will also use a standard xml Spring configuration file.
 
 The simplest configuration of such an application boils down to:
 
@@ -83,10 +83,10 @@ public class Boot extends CamelConfiguration {
 If you want to integrate Camel in an existing application, injecting a `CamelContext` in an existing Spring application context is pretty straightforward, see e.g. [https://github.com/pierangeloc/webshop-camel-springmvc](https://github.com/pierangeloc/webshop-camel-springmvc) for an example of how to integrate Camel within an existing web application.
 
 ###Simple Example
-Now that we outlined the base structure of a Camel-based application, let's try to put this at work and build a simple application. The purpose is just to show how we can have a working application with minimum effort. Let us suppose we have a small ERP application that provides us periodically an updated  stock situation, and we want to provide this information to a third application, e.g. an e-commerce or an analytics application. We want to expose a simple REST service, with one URL and supporting only POST method. The aim is to persist the body of our POST call in a file, in a configured location. A file will be created for every request.
+Now that we outlined the base structure of a Camel-based application, let's try to put this at work and build a simple application. The purpose is just to show how we can have a working application with minimum effort. Let us suppose we have a simple ERP application that provides us periodically with an updated stock situation about our e-shop, and we want to provide this information to a third application, e.g. an analytics application. We want to expose a simple REST service, with one URL and supporting only POST method. The aim is to persist the body of our POST call in a file, in a configured location. A file will be created for every request.
 
 ####Setup Rest Endpoint
-The most convenient way to expose or consume a REST or SOAP webservice in Camel is to use the CXF component. With CXF we can use `JAX-RS` and `JAX-WS` annotations to configure the service classes.
+The most convenient way to expose or consume a REST or SOAP webservices in Camel is to use the CXF component. With CXF we can use `JAX-RS` and `JAX-WS` annotations to configure the service classes.
 
 The first thing we must do is to setup the serving class that describes the resource we want to expose:
 
@@ -115,7 +115,7 @@ public class InventoryResource {
 }
 ```
 
-We provided a trivial implementation of the method, as the real implementation of the logic will be delegated to the route we are about to create. The JAX-RS annotations allow us to specify in a transparent way the supported content types, having the implementation to take care of enforcing them.
+We provided a trivial implementation of the method, as the real implementation of the logic will be delegated to the route we are about to create. The JAX-RS annotations allow us to specify in a transparent way the supported content types, having the implementation actually enforcing them.
 To make the endpoint available to our route, the most flexible way is to create a CXF bean that delegates to it, and to set it in our Spring context:
 
 ```
@@ -136,11 +136,11 @@ Here we created a `cxf:rsServer` bean as we want it to serve requests, and speci
 
 ####Routing
 Routes are specified in Camel by extending the abstract class  `RouteBuilder`, which provides all the Camel DSL goodness. All we have to do is implement the `configure() ` method and specify the route(s). A route has one _consumer endpoint_, representing the point the processing starts from, and one or more _producer endpoints_, to represent delegation steps outside the present route, typically using _Camel components_.
-In our case we want to consume requests coming to our REST resource, therefore we will specify this circumstance in the `from`. The [`cxfrs`](http://camel.apache.org/cxfrs.html) component is used to expose or consume rest services through CXF. Being used in a `from` clause means it is acting as a REST server. The _transport layer_ is provided in our case by a _Jetty server_ that we embed in our application, but a standard Servlet transport could be used as well.
+In our case we want to consume requests coming to our REST resource, therefore we will specify this circumstance in the `from`. The [`cxfrs`](http://camel.apache.org/cxfrs.html) component is used to expose or consume rest services through CXF. Being used in a `from` clause means it is acting as a REST server. The _transport layer_ is provided in our case by a _Jetty server_ that we embed in our application, but a standard Servlet transport could be used as well when running within a container.
 
 After the `from(...)` we specify the EIP that must be applied in our processing logic, and the DSL provides a natural and straightforward way to do so.
-A simple, dummy  implementation of this concept applied to our use case results in this initial version of our route builder, that accepts any JSON request and replies with a static JSON response. 
-This allows us to inspect how a `Processor` works in Camel. All the processing steps in Camel are essentially done through a chain of `Processor` implementations, each acting on a mutable instance of `Exchange` (we will get back later to the details of the `Exchange`). In a `Processor` we can access directly the structure of the `Exchange`, but to some extent we can do this also through the DSL, and in general using the DSL gives us a more consistent view of the processing, without the need to inspect the details of a specific `Processor` implementation.
+A simple, dummy  implementation of this concept applied to our use case results in this initial version of our route builder, that defines one route that accepts any JSON request and replies with a static JSON response. 
+This allows us to inspect how a `Processor` works in Camel. All the processing steps in Camel are essentially done through a chain of `Processor` implementations, each acting on a mutable instance of `Exchange` (we will get back later to the details of the `Exchange`). The DSL implicitly introduces processors in a transparent way, however in an explicit `Processor` we can access directly the structure of the `Exchange`. To some extent we can do this also through the DSL, and in general using the DSL gives us a more consistent view of the processing, without the need to inspect the details of a specific `Processor` implementation.
 
 ```Java
 
