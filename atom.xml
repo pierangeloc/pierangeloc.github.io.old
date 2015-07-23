@@ -4,7 +4,7 @@
   <title><![CDATA[Pierangelo Cecchetto]]></title>
   <link href="http://pierangeloc.github.io/atom.xml" rel="self"/>
   <link href="http://pierangeloc.github.io/"/>
-  <updated>2015-07-22T23:09:20+02:00</updated>
+  <updated>2015-07-23T22:43:13+02:00</updated>
   <id>http://pierangeloc.github.io/</id>
   <author>
     <name><![CDATA[Pierangelo Cecchetto]]></name>
@@ -18,9 +18,9 @@
     <link href="http://pierangeloc.github.io/blog/2015/07/22/ride-the-camel-1/"/>
     <updated>2015-07-22T21:11:55+02:00</updated>
     <id>http://pierangeloc.github.io/blog/2015/07/22/ride-the-camel-1</id>
-    <content type="html"><![CDATA[<p>Any application that does a bit more than printing <code>hello world</code> must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become a integration nightmare. <em>Enterprise Integration Patterns</em> (EAI) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see <a href="http://www.enterpriseintegrationpatterns.com">http://www.enterpriseintegrationpatterns.com</a>). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.</p>
+    <content type="html"><![CDATA[<p>Any application in an enterprise context, regardless how small this context might be, must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. Moreover, data typically undergo transformations, switching and routing logics before reaching other systems. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become an integration nightmare. <em>Enterprise Integration Patterns</em> (EIP) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see <a href="http://www.enterpriseintegrationpatterns.com">http://www.enterpriseintegrationpatterns.com</a>). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.</p>
 
-<p><a href="http://camel.apache.org/">Apache Camel</a> is a framework that implements EAIs through a very expressive DSL, so one can translate almost immediately any EAI to a corresponding expression in the DSL. Moreover, Camel provides an extensible set of components that allows you to deal with basically any system that might come at hand. A key feature of Camel is that it deals with a <em>normalized message format</em>, so after the consumption point the message has a standard format, e.g. it can be handled identically either if it comes from consuming from a JMS queue or from a SOAP or REST webservice. </p>
+<p><a href="http://camel.apache.org/">Apache Camel</a> is a framework that implements EIPs through a very expressive DSL, so one can translate almost immediately any EIP to a corresponding expression in the DSL. Moreover, Camel provides an extensible set of components that allows you to deal with basically any system that might come at hand. A key feature of Camel is that it deals with a <em>normalized message format</em>, so after the consumption point the message has a standard format, e.g. it can be handled identically either if it comes from consuming from a JMS queue or from a SOAP or REST webservice. </p>
 
 <p>It is easier to grasp the concepts setting up a simple Camel project and seeing these features at work.</p>
 
@@ -91,7 +91,7 @@
 
 <h4 id="embed-camel-in-a-bootable-application">Embed Camel in a bootable application</h4>
 <p>The <code>org.apache.camel.spring.javaconfig.CamelConfiguration</code> abstract class can be used as a base Spring configuration class, where we can reference all the beans we might need in the standard Spring way (xml or annotations based). The additional thing that this class does is loading a <code>CamelContext</code> and injecting any bean that extends <code>RouteBuilder</code> available in the Spring context, in the <code>CamelContext</code>. More about the <code>CamelContext</code> will follow along the article.
-To give ourselves some more flexibility we will also make use of a standard xml spring configuration.</p>
+To give ourselves some more flexibility we will also use a standard xml Spring configuration file.</p>
 
 <p>The simplest configuration of such an application boils down to:</p>
 
@@ -141,10 +141,10 @@ To give ourselves some more flexibility we will also make use of a standard xml 
 <p>If you want to integrate Camel in an existing application, injecting a <code>CamelContext</code> in an existing Spring application context is pretty straightforward, see e.g. <a href="https://github.com/pierangeloc/webshop-camel-springmvc">https://github.com/pierangeloc/webshop-camel-springmvc</a> for an example of how to integrate Camel within an existing web application.</p>
 
 <h3 id="simple-example">Simple Example</h3>
-<p>Now that we outlined the base structure of a Camel-based application, let’s try to put this at work and build a simple application. The purpose is just to show how we can have a working application with minimum effort. Let us suppose we have a small ERP application that provides us periodically an updated  stock situation, and we want to provide this information to a third application, e.g. an e-commerce or an analytics application. We want to expose a simple REST service, with one URL and supporting only POST method. The aim is to persist the body of our POST call in a file, in a configured location. A file will be created for every request.</p>
+<p>Now that we outlined the base structure of a Camel-based application, let’s try to put this at work and build a simple application. The purpose is just to show how we can have a working application with minimum effort. Let us suppose we have a simple ERP application that provides us periodically with an updated stock situation about our e-shop, and we want to provide this information to a third application, e.g. an analytics application. We want to expose a simple REST service, with one URL and supporting only POST method. The aim is to persist the body of our POST call in a file, in a configured location. A file will be created for every request.</p>
 
 <h4 id="setup-rest-endpoint">Setup Rest Endpoint</h4>
-<p>The most convenient way to expose or consume a REST or SOAP webservice in Camel is to use the CXF component. With CXF we can use <code>JAX-RS</code> and <code>JAX-WS</code> annotations to configure the service classes.</p>
+<p>The most convenient way to expose or consume a REST or SOAP webservices in Camel is to use the CXF component. With CXF we can use <code>JAX-RS</code> and <code>JAX-WS</code> annotations to configure the service classes.</p>
 
 <p>The first thing we must do is to setup the serving class that describes the resource we want to expose:</p>
 
@@ -194,7 +194,7 @@ To give ourselves some more flexibility we will also make use of a standard xml 
 </span><span class="line"><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We provided a trivial implementation of the method, as the real implementation of the logic will be delegated to the route we are about to create. The JAX-RS annotations allow us to specify in a transparent way the supported content types, having the implementation to take care of enforcing them.
+<p>We provided a trivial implementation of the method, as the real implementation of the logic will be delegated to the route we are about to create. The JAX-RS annotations allow us to specify in a transparent way the supported content types, having the implementation actually enforcing them.
 To make the endpoint available to our route, the most flexible way is to create a CXF bean that delegates to it, and to set it in our Spring context:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -225,11 +225,11 @@ To make the endpoint available to our route, the most flexible way is to create 
 
 <h4 id="routing">Routing</h4>
 <p>Routes are specified in Camel by extending the abstract class  <code>RouteBuilder</code>, which provides all the Camel DSL goodness. All we have to do is implement the <code>configure() </code> method and specify the route(s). A route has one <em>consumer endpoint</em>, representing the point the processing starts from, and one or more <em>producer endpoints</em>, to represent delegation steps outside the present route, typically using <em>Camel components</em>.
-In our case we want to consume requests coming to our REST resource, therefore we will specify this circumstance in the <code>from</code>. The <a href="http://camel.apache.org/cxfrs.html"><code>cxfrs</code></a> component is used to expose or consume rest services through CXF. Being used in a <code>from</code> clause means it is acting as a REST server. The <em>transport layer</em> is provided in our case by a <em>Jetty server</em> that we embed in our application, but a standard Servlet transport could be used as well.</p>
+In our case we want to consume requests coming to our REST resource, therefore we will specify this circumstance in the <code>from</code>. The <a href="http://camel.apache.org/cxfrs.html"><code>cxfrs</code></a> component is used to expose or consume rest services through CXF. Being used in a <code>from</code> clause means it is acting as a REST server. The <em>transport layer</em> is provided in our case by a <em>Jetty server</em> that we embed in our application, but a standard Servlet transport could be used as well when running within a container.</p>
 
 <p>After the <code>from(...)</code> we specify the EIP that must be applied in our processing logic, and the DSL provides a natural and straightforward way to do so.
-A simple, dummy  implementation of this concept applied to our use case results in this initial version of our route builder, that accepts any JSON request and replies with a static JSON response. 
-This allows us to inspect how a <code>Processor</code> works in Camel. All the processing steps in Camel are essentially done through a chain of <code>Processor</code> implementations, each acting on a mutable instance of <code>Exchange</code> (we will get back later to the details of the <code>Exchange</code>). In a <code>Processor</code> we can access directly the structure of the <code>Exchange</code>, but to some extent we can do this also through the DSL, and in general using the DSL gives us a more consistent view of the processing, without the need to inspect the details of a specific <code>Processor</code> implementation.</p>
+A simple, dummy  implementation of this concept applied to our use case results in this initial version of our route builder, that defines one route that accepts any JSON request and replies with a static JSON response. 
+This allows us to inspect how a <code>Processor</code> works in Camel. All the processing steps in Camel are essentially done through a chain of <code>Processor</code> implementations, each acting on a mutable instance of <code>Exchange</code> (we will get back later to the details of the <code>Exchange</code>). The DSL implicitly introduces processors in a transparent way, however in an explicit <code>Processor</code> we can access directly the structure of the <code>Exchange</code>. To some extent we can do this also through the DSL, and in general using the DSL gives us a more consistent view of the processing, without the need to inspect the details of a specific <code>Processor</code> implementation.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -368,7 +368,7 @@ This allows us to inspect how a <code>Processor</code> works in Camel. All the p
 </span><span class="line"><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>In general components in Camel are addressed by means of a url where the protocol represents the component we want to use, followed by a base url and a query string that configure the component itself. In this case we instruct <code>file</code> on how to create the file name, by means of the <em>simple expression language</em> which is very useful in Camel when we have to deal with dynamic content. In this case we want the file name to contain a simple timestamp.
+<p>In general components in Camel are addressed by means of a url where the protocol represents the component we want to use, followed by a base url and a query string to configure and tweak the component itself. In this case we instruct <code>file</code> on how to create the file name, by means of the <em>simple expression language</em> which is very useful in Camel when we have to deal with dynamic content. In this case we want the file name to contain a simple timestamp.
 If we run this example, we can see that for every request there is a new file created and saved with the name we defined. We didn’t have to bother about serializing/deserializing anything, as Camel did this for us. It is even possible to configure the components to deal properly with <em>streaming</em> situations, e.g. when we have to upload resources.</p>
 
 <p><a href="https://github.com/sytac/camel-handson/commit/ec3b524e495b630154a5cbbc6ce89d8a7d39edee">Code check-point</a></p>
@@ -402,7 +402,7 @@ If we run this example, we can see that for every request there is a new file cr
 </span><span class="line"><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>and then the ceremony is over, as all we are left to do is replacing our <code>file</code> component with a <code>mongodb</code> component, configured to use the <code>mongoClient</code> bean above defined, and to use the <code>inventory</code> database, with <code>updates</code>  as collection, and <code>save</code> operation (as we are saving our data in the collection).</p>
+<p>and then the ceremony is over. All we are left to do is replacing our <code>file</code> component with a <code>mongodb</code> component, configured to use the <code>mongoClient</code> bean above defined, and to use the <code>inventory</code> database, with <code>updates</code>  as collection, and <code>save</code> operation (as we are saving our data in the collection).</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -465,7 +465,7 @@ If we run this example, we can see that for every request there is a new file cr
 <p>In the previous example we have stored the same message both on DB and filesystem. We might think to split the incoming message based on its structure, and store e.g. some jeans related stock information on DB and the shoes related information on filesystem.</p>
 
 <p>For this kind of purposes an easy approach is to introduce a <code>when</code> clause where we can specify <code>jsonpath</code> expressions that our input message must match in order to be treated the way we need.
-For this exercise we will deal with shoes inventory messages that will be persisted on file:</p>
+For this exercise we will deal with shoes inventory updates that will be persisted on file:</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -545,7 +545,7 @@ For this exercise we will deal with shoes inventory messages that will be persis
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We want also to deal with messages that do not conform to any of these 2 options, and these will end up in error files.</p>
+<p>We want also to deal with messages that do not conform to any of these 2 options, saving them in corresponding error files (we could also send them alternatively to a <em>dead letter queue</em>) .</p>
 
 <p>The solution is very straightforward, it just might take a bit if you are new to jsonpath expressions:</p>
 
@@ -566,29 +566,40 @@ For this exercise we will deal with shoes inventory messages that will be persis
 <span class="line-number">15</span>
 <span class="line-number">16</span>
 <span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
 </pre></td><td class="code"><pre><code class="Java"><span class="line"><span class="nd">@Component</span>
 </span><span class="line"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleRouteBuilder</span> <span class="kd">extends</span> <span class="n">RouteBuilder</span> <span class="o">{</span>
 </span><span class="line">
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FILE_INVENTORY_ENDPOINT</span> <span class="o">=</span> <span class="s">&quot;file:///tmp/inventory?fileName=inventory-${date:now:yyyyMMdd@HHmmssSS}.json&quot;</span><span class="o">;</span>
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">MONGO_INVENTORY_ENDPOINT</span> <span class="o">=</span> <span class="s">&quot;mongodb:mongoClient?database=inventory&amp;collection=updates&amp;operation=save&quot;</span><span class="o">;</span>
+</span><span class="line">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">FILE_ERROR_ENDPOINT</span> <span class="o">=</span> <span class="s">&quot;file:///tmp/inventory?fileName=error-${date:now:yyyyMMdd@HHmmssSS}.json&quot;</span><span class="o">;</span>
+</span><span class="line">
 </span><span class="line">    <span class="nd">@Override</span>
 </span><span class="line">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
-</span><span class="line">        <span class="n">from</span><span class="o">(</span><span class="s">&quot;cxfrs:bean:restInventory&quot;</span><span class="o">).</span><span class="na">routeId</span><span class="o">(</span><span class="s">&quot;restInventoryRoute&quot;</span><span class="o">)</span>
-</span><span class="line">            <span class="o">.</span><span class="na">choice</span><span class="o">()</span>
-</span><span class="line">                <span class="o">.</span><span class="na">when</span><span class="o">().</span><span class="na">jsonpath</span><span class="o">(</span><span class="s">&quot;$[?(@.shoes)]&quot;</span><span class="o">)</span>
-</span><span class="line">                    <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="s">&quot;file:///tmp/inventory?fileName=inventory-${date:now:yyyyMMdd@HHmmssSS}.json&quot;</span><span class="o">)</span>
-</span><span class="line">                <span class="o">.</span><span class="na">when</span><span class="o">().</span><span class="na">jsonpath</span><span class="o">(</span><span class="s">&quot;$[?(@.jeans)]&quot;</span><span class="o">)</span>
-</span><span class="line">                    <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="s">&quot;mongodb:mongoClient?database=inventory&amp;collection=updates&amp;operation=save&quot;</span><span class="o">)</span>
-</span><span class="line">                <span class="o">.</span><span class="na">otherwise</span><span class="o">()</span>
-</span><span class="line">                    <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="s">&quot;file:///tmp/inventory?fileName=error-${date:now:yyyyMMdd@HHmmssSS}.json&quot;</span><span class="o">)</span>
-</span><span class="line">            <span class="o">.</span><span class="na">end</span><span class="o">()</span>
-</span><span class="line">        <span class="o">.</span><span class="na">setBody</span><span class="o">(</span><span class="n">constant</span><span class="o">(</span><span class="k">new</span> <span class="nf">Response</span><span class="o">(</span><span class="s">&quot;Ok&quot;</span><span class="o">,</span> <span class="s">&quot;stock update received&quot;</span><span class="o">)));</span>
+</span><span class="line">        <span class="n">from</span><span class="o">(</span><span class="s">&quot;cxfrs:bean:restInventory&quot;</span><span class="o">)</span>
+</span><span class="line">            <span class="o">.</span><span class="na">routeId</span><span class="o">(</span><span class="s">&quot;restInventoryRoute&quot;</span><span class="o">)</span>
+</span><span class="line">                <span class="o">.</span><span class="na">choice</span><span class="o">()</span>
+</span><span class="line">                    <span class="o">.</span><span class="na">when</span><span class="o">().</span><span class="na">jsonpath</span><span class="o">(</span><span class="s">&quot;$[?(@.shoes)]&quot;</span><span class="o">)</span>
+</span><span class="line">                        <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">FILE_INVENTORY_ENDPOINT</span><span class="o">)</span>
+</span><span class="line">                    <span class="o">.</span><span class="na">when</span><span class="o">().</span><span class="na">jsonpath</span><span class="o">(</span><span class="s">&quot;$[?(@.jeans)]&quot;</span><span class="o">)</span>
+</span><span class="line">                        <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">MONGO_INVENTORY_ENDPOINT</span><span class="o">)</span>
+</span><span class="line">                    <span class="o">.</span><span class="na">otherwise</span><span class="o">()</span>
+</span><span class="line">                        <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">FILE_ERROR_ENDPOINT</span><span class="o">)</span>
+</span><span class="line">                <span class="o">.</span><span class="na">end</span><span class="o">()</span>
+</span><span class="line">            <span class="o">.</span><span class="na">setBody</span><span class="o">(</span><span class="n">constant</span><span class="o">(</span><span class="k">new</span> <span class="nf">Response</span><span class="o">(</span><span class="s">&quot;Ok&quot;</span><span class="o">,</span> <span class="s">&quot;stock update received&quot;</span><span class="o">)));</span>
 </span><span class="line">    <span class="o">}</span>
 </span><span class="line"><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>The <code>choice</code> clause allows us to specify any predicate or expression we might want to evaluate on the incoming <code>Exchange</code>, in this case as we know we are dealing with JSON body so we make direct use of the <a href="http://goessner.net/articles/JsonPath/"><code>jsonpath</code></a> construct. Camel Expression language is very rich and it might be subject of a future post. 
-<a href="https://github.com/sytac/camel-handson/commit/f3e17df4b817da441550aa9eab58fed07a0ae0b6">Code check-point</a></p>
+<p>The <code>choice</code> clause allows us to specify any predicate or expression we might want to evaluate on the incoming <code>Exchange</code>, in this case as we know we are dealing with JSON body so we make direct use of the <a href="http://goessner.net/articles/JsonPath/"><code>jsonpath</code></a> construct. Camel Expression language is very rich and it might be subject of a future post. </p>
 
-<p>At this point I think the philosophy behind the Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components and of the routing logic. Just looking at the DSL we can understand and reason about the processing steps our data follow through. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or perform testing.</p>
+<p><a href="https://github.com/sytac/camel-handson/commit/f3e17df4b817da441550aa9eab58fed07a0ae0b6">Code check-point</a></p>
+
+<p>At this point I think the concept about Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components and of the routing logic. Just looking at the DSL we can understand and reason about the processing steps our data go through. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or perform testing.</p>
 
 <p>I will close this article with an overview of the structural foundations of Camel and recurring concepts that will appear any time you have to deal with it.</p>
 
@@ -617,9 +628,9 @@ The <code>RouteBuilder</code> class provides the Camel DSL which makes the imple
 For these cases the <code>CamelContext</code> provides with an instance of <code>ProducerTemplate</code> which allows to ultimately synthesize on the flight an <code>Exchange</code> and send it to an endpoint, all in a <em>thread safe manner</em>. <code>ProducerTemplate</code> provides a number of methods to build an <code>Exchange</code>.</p>
 
 <h3 id="conclusions">Conclusions</h3>
-<p>In this post we just scraped the surface of Camel, and there is a lot more to discover. I will try in future posts to dive further into features of Camel that I find very useful, e.g. the testing support, parallel processing features, integration with Akka.</p>
+<p>In this post we just scraped the surface of Camel, and there is a lot more to discover. I will try in future posts to dive further into features of Camel that I find particularly interesting, e.g. the testing support, parallel processing features, integration with Akka.</p>
 
-<p>I think the way the Camel DSL is structured provides a way to write code in a way that is easier to reason about, in a very straightforward and <em>visualizable</em> way (through the DSL and through HawtIO which we will explore later), and it tackles the problems of modularity of an application, as we can just split any processing flow in subflows and replace only those when necessary, provided the structure of the <code>Exchange</code> up and downstream is preserverd. This also fits perfectly with the need of distributing work in a team without risking of stepping in each others’ toes. If we consider also that a very natural way of deploying routes is through OSGi bundles (this is the principle followed in  <a href="http://www.jboss.org/products/fuse/overview">JBoss Fuse</a>), we can see how allowing modularity is one of the core principles at the base of this project, and I think it has been definitely achieved.</p>
+<p>The way the Camel DSL is structured provides a way to write code in linear manner, making it easier to reason about, and even <em>visualize it</em> (through the DSL and through HawtIO which we will explore later), and it tackles the problems of modularity of an application. For example we could just split any processing flow in subroutes and replace only those when necessary, provided the structure of the <code>Exchange</code> up and downstream is preserverd. This also fits perfectly with the need of distributing work in a team without risking of stepping in each others’ toes. If we consider also that a very natural way of deploying routes is through OSGi bundles (this is the principle followed in  <a href="http://www.jboss.org/products/fuse/overview">JBoss Fuse</a>), we can see how allowing modularity is one of the core principles at the base of this project, and it has definitely been achieved.</p>
 ]]></content>
   </entry>
   
