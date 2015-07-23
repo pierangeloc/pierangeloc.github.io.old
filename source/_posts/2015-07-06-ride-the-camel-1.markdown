@@ -231,7 +231,7 @@ public class SimpleRouteBuilder extends RouteBuilder {
 }
 ```
 
-In general components in Camel are addressed by means of a url where the protocol represents the component we want to use, followed by a base url and a query string that configure the component itself. In this case we instruct `file` on how to create the file name, by means of the _simple expression language_ which is very useful in Camel when we have to deal with dynamic content. In this case we want the file name to contain a simple timestamp.
+In general components in Camel are addressed by means of a url where the protocol represents the component we want to use, followed by a base url and a query string to configure and tweak the component itself. In this case we instruct `file` on how to create the file name, by means of the _simple expression language_ which is very useful in Camel when we have to deal with dynamic content. In this case we want the file name to contain a simple timestamp.
 If we run this example, we can see that for every request there is a new file created and saved with the name we defined. We didn't have to bother about serializing/deserializing anything, as Camel did this for us. It is even possible to configure the components to deal properly with _streaming_ situations, e.g. when we have to upload resources.
 
 [Code check-point](https://github.com/sytac/camel-handson/commit/ec3b524e495b630154a5cbbc6ce89d8a7d39edee)
@@ -257,7 +257,7 @@ Then we must just configure a `MongoClient` bean in our Spring context:
     }
 ```
 
-and then the ceremony is over, as all we are left to do is replacing our `file` component with a `mongodb` component, configured to use the `mongoClient` bean above defined, and to use the `inventory` database, with `updates`  as collection, and `save` operation (as we are saving our data in the collection).
+and then the ceremony is over. All we are left to do is replacing our `file` component with a `mongodb` component, configured to use the `mongoClient` bean above defined, and to use the `inventory` database, with `updates`  as collection, and `save` operation (as we are saving our data in the collection).
 
 ```Java
 @Component
@@ -300,7 +300,7 @@ public class SimpleRouteBuilder extends RouteBuilder {
 In the previous example we have stored the same message both on DB and filesystem. We might think to split the incoming message based on its structure, and store e.g. some jeans related stock information on DB and the shoes related information on filesystem.
 
 For this kind of purposes an easy approach is to introduce a `when` clause where we can specify `jsonpath` expressions that our input message must match in order to be treated the way we need.
-For this exercise we will deal with shoes inventory messages that will be persisted on file:
+For this exercise we will deal with shoes inventory updates that will be persisted on file:
 
 ```JSON
 {
@@ -346,7 +346,7 @@ and jeans inventory messages that will be persisted on DB:
 }
 ```
 
-We want also to deal with messages that do not conform to any of these 2 options, and these will end up in error files.
+We want also to deal with messages that do not conform to any of these 2 options, saving them in corresponding error files (we could also send them alternatively to a _dead letter queue_) .
 
 The solution is very straightforward, it just might take a bit if you are new to jsonpath expressions:
 
@@ -354,27 +354,33 @@ The solution is very straightforward, it just might take a bit if you are new to
 @Component
 public class SimpleRouteBuilder extends RouteBuilder {
 
+    public static final String FILE_INVENTORY_ENDPOINT = "file:///tmp/inventory?fileName=inventory-${date:now:yyyyMMdd@HHmmssSS}.json";
+    public static final String MONGO_INVENTORY_ENDPOINT = "mongodb:mongoClient?database=inventory&collection=updates&operation=save";
+    public static final String FILE_ERROR_ENDPOINT = "file:///tmp/inventory?fileName=error-${date:now:yyyyMMdd@HHmmssSS}.json";
+
     @Override
     public void configure() throws Exception {
-        from("cxfrs:bean:restInventory").routeId("restInventoryRoute")
-            .choice()
-                .when().jsonpath("$[?(@.shoes)]")
-                    .to("file:///tmp/inventory?fileName=inventory-${date:now:yyyyMMdd@HHmmssSS}.json")
-                .when().jsonpath("$[?(@.jeans)]")
-                    .to("mongodb:mongoClient?database=inventory&collection=updates&operation=save")
-                .otherwise()
-                    .to("file:///tmp/inventory?fileName=error-${date:now:yyyyMMdd@HHmmssSS}.json")
-            .end()
-        .setBody(constant(new Response("Ok", "stock update received")));
+        from("cxfrs:bean:restInventory")
+            .routeId("restInventoryRoute")
+                .choice()
+                    .when().jsonpath("$[?(@.shoes)]")
+                        .to(FILE_INVENTORY_ENDPOINT)
+                    .when().jsonpath("$[?(@.jeans)]")
+                        .to(MONGO_INVENTORY_ENDPOINT)
+                    .otherwise()
+                        .to(FILE_ERROR_ENDPOINT)
+                .end()
+            .setBody(constant(new Response("Ok", "stock update received")));
     }
 }
 ```
 
 The `choice` clause allows us to specify any predicate or expression we might want to evaluate on the incoming `Exchange`, in this case as we know we are dealing with JSON body so we make direct use of the [`jsonpath`](http://goessner.net/articles/JsonPath/) construct. Camel Expression language is very rich and it might be subject of a future post. 
+
 [Code check-point](https://github.com/sytac/camel-handson/commit/f3e17df4b817da441550aa9eab58fed07a0ae0b6)
 
 
-At this point I think the philosophy behind the Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components and of the routing logic. Just looking at the DSL we can understand and reason about the processing steps our data follow through. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or perform testing.
+At this point I think the concept about Camel routing is pretty clear, and you can appreciate how easy it is to make use of the components and of the routing logic. Just looking at the DSL we can understand and reason about the processing steps our data go through. In a future post we will explore further some of the DSL routing features, e.g. how to handle errors or perform testing.
 
 I will close this article with an overview of the structural foundations of Camel and recurring concepts that will appear any time you have to deal with it.
 
@@ -404,6 +410,6 @@ For these cases the `CamelContext` provides with an instance of `ProducerTemplat
 
 
 ###Conclusions
-In this post we just scraped the surface of Camel, and there is a lot more to discover. I will try in future posts to dive further into features of Camel that I find very useful, e.g. the testing support, parallel processing features, integration with Akka.
+In this post we just scraped the surface of Camel, and there is a lot more to discover. I will try in future posts to dive further into features of Camel that I find particularly interesting, e.g. the testing support, parallel processing features, integration with Akka.
 
-I think the way the Camel DSL is structured provides a way to write code in a way that is easier to reason about, in a very straightforward and _visualizable_ way (through the DSL and through HawtIO which we will explore later), and it tackles the problems of modularity of an application, as we can just split any processing flow in subflows and replace only those when necessary, provided the structure of the `Exchange` up and downstream is preserverd. This also fits perfectly with the need of distributing work in a team without risking of stepping in each others' toes. If we consider also that a very natural way of deploying routes is through OSGi bundles (this is the principle followed in  [JBoss Fuse](http://www.jboss.org/products/fuse/overview)), we can see how allowing modularity is one of the core principles at the base of this project, and I think it has been definitely achieved.
+The way the Camel DSL is structured provides a way to write code in linear manner, making it easier to reason about, and even _visualize it_ (through the DSL and through HawtIO which we will explore later), and it tackles the problems of modularity of an application. For example we could just split any processing flow in subroutes and replace only those when necessary, provided the structure of the `Exchange` up and downstream is preserverd. This also fits perfectly with the need of distributing work in a team without risking of stepping in each others' toes. If we consider also that a very natural way of deploying routes is through OSGi bundles (this is the principle followed in  [JBoss Fuse](http://www.jboss.org/products/fuse/overview)), we can see how allowing modularity is one of the core principles at the base of this project, and it has definitely been achieved.
