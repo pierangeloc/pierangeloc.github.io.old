@@ -4,7 +4,7 @@
   <title><![CDATA[Category: integration | Pierangelo Cecchetto]]></title>
   <link href="http://pierangeloc.github.io/blog/categories/integration/atom.xml" rel="self"/>
   <link href="http://pierangeloc.github.io/"/>
-  <updated>2015-07-23T22:43:13+02:00</updated>
+  <updated>2015-08-10T22:10:32+02:00</updated>
   <id>http://pierangeloc.github.io/</id>
   <author>
     <name><![CDATA[Pierangelo Cecchetto]]></name>
@@ -24,7 +24,7 @@
 
 <p>It is easier to grasp the concepts setting up a simple Camel project and seeing these features at work.</p>
 
-<p>Camel is a Spring-based framework, so the easiest way to use it is to include it in your Spring context. We will use Camel 2.15.1 that provides a way to setup a Camel-based application without the need of xml configuration.</p>
+<p>The easiest way to use Camel is to include it in your DI context, in our case we will use Spring. We will use Camel 2.15.1 that provides a way to setup a Camel-based application without the need of xml configuration.</p>
 
 <h4 id="maven-dependencies">Maven Dependencies</h4>
 <p>First of all let’s include the dependencies in our <code>pom.xml</code>:</p>
