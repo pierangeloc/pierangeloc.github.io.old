@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Category: integration - Pierangelo Cecchetto</title>
+  <meta name="author" content="Pierangelo Cecchetto">
+
+  
+  <meta name="description" content="Category: integration">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://pierangeloc.github.io/blog/categories/integration/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Pierangelo Cecchetto" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=EB+Garamond:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=EB+Garamond:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+	jax: ["input/TeX","output/HTML-CSS"],
+  extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],
+  tex2jax: 
+		{
+			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+			displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+			processEscapes: true
+		},
+	TeX:
+		{ 
+			equationNumbers: { autoNumber: "AMS" },
+			TagSide: "left",
+  		Macros:
+  			{
+  				b: ['\\overline{#1}',1],
+  				h: ['\\widehat{#1}',1],
+  				til: ['\\widetilde{#1}',1],
+				bold: ['\\mathbf{#1}',1],  				
+  				sans: ['\\mathsf{#1}',1],
+ 				vect:	['\\boldsymbol{\\mathbf{#1}}',1],
+ 				zeros: ['\\mathbf{0}'],
+ 				ones: ['\\mathbf{1}'],
+ 				complex: ['\\mathbf{C}'],
+ 				C: ['\\mathsf{c}'],
+				d: ['\\,d'],
+ 				expect: ['\\mathbf{E}'],
+ 				emf: ['\\mathscr{E}'],
+ 				ft: ['\\mathcal{F}'],
+ 				Lagrange: ['\\mathscr{L}'],
+ 				naturals: ['\\mathbf{N}'],
+ 				normal: ['\\mathcal{N}'],
+ 				prob: ['\\mathbf{P}'],
+ 				pset: ['\\mathcal{P}'],
+ 				rationals: ['\\mathbf{Q}'],
+ 				reals: ['\\mathbf{R}'],
+ 				ereals: ['\\overline{\\mathbf{R}}'],
+ 				risk: ['\\mathcal{R}'],
+ 				integers: ['\\mathbf{Z}'],
+ 				symdiff: ['\\,\\Delta\\,'],
+ 				grad: ['\\nabla'],
+ 				emptyset: ['\\varnothing'],
+ 				ortho: ['{\\bot}'],
+ 				deq: [':='],
+ 				given: ['\\mid'],
+ 				midgiven: ['\\;\\middle\\vert\\;'],
+ 				set: ['\\{\\, #1 \\,\\}', 1],
+ 				inner: ['\\langle#1,#2\\rangle', 2],
+ 				ave: ['\\langle #1 \\rangle', 1],
+ 				innerlr: ['\\left\\langle#1,#2\\right\\rangle', 2],
+ 				avelr: ['\\left\\langle#1\\right\\rangle', 1],
+ 				T: ['\\top'],
+ 				abs: ['\\lvert#1\\rvert', 1],
+ 				abslr:['\\left\\lvert#1\\right\\rvert', 1],
+				norm: ['\\lVert#1\\rVert', 1],
+				normlr: ['\\left\\lVert#1\\right\\rVert', 1],
+				zeronorm: ['\\norm{#1}_0', 1],
+				zeronormlr: ['\\normlr{#1}_0', 1],
+				onenorm: ['\\norm{#1}_1', 1],
+				onenormlr: ['\\normlr{#1}_1', 1],
+				twonorm: ['\\norm{#1}_2', 1],
+				twonormlr: ['\\normlr{#1}_2', 1],
+				inftynorm: ['\\norm{#1}_\\infty', 1],
+				inftynormlr: ['\\normlr{#1}_\\infty', 1],
+				pnorm: ['\\norm{#1}_p', 1],
+				pnormlr: ['\\normlr{#1}_p', 1],
+				Frobnorm: ['\\norm{#1}_\\mathrm{F}', 1],
+				Frobnormlr: ['\\normlr{#1}_\\mathrm{F}', 1],
+				maxnorm: ['\\norm{#1}_\\mathrm{max}', 1],
+				maxnormlr:  ['\\normlr{#1}_\\mathrm{max}', 1],
+				tvnorm: ['\\norm{#1}_\\mathrm{TV}', 1],
+				tvnormlr: ['\\normlr{#1}_\\mathrm{TV}', 1],
+				ind: ['\\mathbf{I}_{\\{ #1 \\} }', 1],
+				pind: ['\\mathbf{I}(#1)', 1],
+				argmin: ['\\mathop{\\mathrm{arg\\,min}}'],
+				argmax: ['\\mathop{\\mathrm{arg}\\,\\max}'],
+				bdiag: ['\\mathop{\\mathrm{bdiag}}'],
+				bd: ['\\mathop{\\mathrm{bd}}'],
+				comb: ['\\mathop{\\mathrm{comb}}'],
+				codom: ['\\mathop{\\mathrm{codim}}'],
+				diag: ['\\mathop{\\mathrm{diag}}'],
+				dom: ['\\mathop{\\mathrm{dom}}'],
+				epi: ['\\mathop{\\mathrm{epi}}'],
+				hard: ['\\mathop{\\mathrm{hard}}'],
+				interior: ['\\mathop{\\mathrm{int}}'],
+				MSE: ['\\mathop{\\mathrm{MSE}}'],
+				modop: ['\\mathop{\\mathrm{mod}}'],
+				minimize: ['\\mathop{\\mathrm{minimize}}'],
+				maximize: ['\\mathop{\\mathrm{maximize}}'],
+				midop: ['\\mathop{\\mathrm{mid}}'],
+				nint: ['\\mathop{\\mathrm{nint}}'],
+				pen: ['\\mathop{\\mathrm{pen}}'],
+				Poisson: ['\\mathop{\\mathrm{Poisson}}'],
+				rect: ['\\mathop{\\mathrm{rect}}'],
+				RMSE: ['\\mathop{\\mathrm{RMSE}}'],
+				range: ['\\mathop{\\mathrm{range}}'],
+				relint: ['\\mathop{\\mathrm{relint}}'],
+				rank: ['\\mathop{\\mathrm{rank}}'],
+				st: ['\\mathop{\\mathrm{subject\\ to}}'],
+				sinc: ['\\mathop{\\mathrm{sinc}}'],
+				sign: ['\\mathop{\\mathrm{sign}}'],
+				sgn: ['\\mathop{\\mathrm{sgn}}'],
+				soft: ['\\mathop{\\mathrm{soft}}'],
+				skewop: ['\\mathop{\\mathrm{skewop}}'],
+				symop: ['\\mathop{\\mathrm{symop}}'],
+				SNR: ['\\mathop{\\mathrm{SNR}}'],
+				spanop: ['\\mathop{\\mathrm{span}}'],
+				tr: ['\\mathop{\\mathrm{tr}}'],
+				var: ['\\mathop{\\mathrm{var}}'],
+				MinProb: ['\\begin{aligned}' +
+					'&\\minimize_{#1} & & {#2}' +
+					'\\end{aligned}', 2],	
+				ConMinProb: ['\\begin{aligned}' +
+					'&\\minimize_{#1} & & #2 \\\\' +
+					'&\\st & & #3' +
+					'\\end{aligned}', 3],
+				MaxProb: ['\\begin{aligned}' +
+					'&\\maximize_{#1} & & {#2}' +
+					'\\end{aligned}', 2],	
+				ConMaxProb: ['\\begin{aligned}' +
+					'&\\maximize_{#1} & & #2 \\\\' +
+					'&\\st & & #3' +
+					'\\end{aligned}', 3],
+				ArgMinProb: ['\\begin{aligned}' +
+					'#1 = &\\argmin_{#2} & & {#3}' +
+					'\\end{aligned}', 3],
+				ArgConMinProb: ['\\begin{aligned}' +
+					'#1 = &\\argmin_{#2} & & {#3} \\\\' +
+					'&\\st & & #4' +
+					'\\end{aligned}', 4],
+				ArgMaxProb: ['\\begin{aligned}' +
+					'#1 = &\\argmax_{#2} & & {#3}' +
+					'\\end{aligned}', 3],
+				ArgConMaxProb: ['\\begin{aligned}' +
+					'#1 = &\\argmax_{#2} & & {#3} \\\\' +
+					'&\\st & & #4' +
+					'\\end{aligned}', 4]
+	      }
+		},
+	"HTML-CSS": { availableFonts: ["TeX"] }
+	}
+);
+</script>
+<script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-60511380-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pierangelo Cecchetto</a></h1>
+  
+    <h2>yet another blog about software (and baking)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:pierangeloc.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Category: Integration</h1>
+    
+  </header>
+  
+  <div id="blog-archives" class="category">
+
+
+
+  
+  <h2>2015</h2>
+
+<article>
+  
+<h1><a href="/blog/2015/07/22/ride-the-camel-1/">Getting started with Apache Camel</a></h1>
+<time datetime="2015-07-22T21:11:55+02:00" pubdate><span class='month'>Jul</span> <span class='day'>22</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/camel/'>camel,</a>, <a class='category' href='/blog/categories/integration/'>integration</a>, <a class='category' href='/blog/categories/java/'>java,</a></span>
+</footer>
+
+
+</article>
+
+</div>
+
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/ride-the-camel-1/">Getting started with Apache Camel</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/12/scalajs-for-dynamic-systems-simulation/">Scala.js for dynamic systems simulation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/06/integrals-in-scala/">A simple Scala application: calculating integrals</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/08/price-of-locks/">Parallelizing costs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some notes about Java Certification exam</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/pierangeloc">@pierangeloc</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'pierangeloc',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos',
+            blacklist: ''
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Pierangelo Cecchetto -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pierangelosbakery';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

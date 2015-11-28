@@ -1,266 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Pierangelo Cecchetto</title>
-  <meta name="author" content="Pierangelo Cecchetto">
-
-  
-  <meta name="description" content="Any application in an enterprise context, regardless how small this context might be, must relate with other systems. These systems might be File &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://pierangeloc.github.io/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Pierangelo Cecchetto" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=EB+Garamond:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=EB+Garamond:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-	jax: ["input/TeX","output/HTML-CSS"],
-  extensions: ["tex2jax.js","MathMenu.js","MathZoom.js"],
-  tex2jax: 
-		{
-			inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-			displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
-			processEscapes: true
-		},
-	TeX:
-		{ 
-			equationNumbers: { autoNumber: "AMS" },
-			TagSide: "left",
-  		Macros:
-  			{
-  				b: ['\\overline{#1}',1],
-  				h: ['\\widehat{#1}',1],
-  				til: ['\\widetilde{#1}',1],
-				bold: ['\\mathbf{#1}',1],  				
-  				sans: ['\\mathsf{#1}',1],
- 				vect:	['\\boldsymbol{\\mathbf{#1}}',1],
- 				zeros: ['\\mathbf{0}'],
- 				ones: ['\\mathbf{1}'],
- 				complex: ['\\mathbf{C}'],
- 				C: ['\\mathsf{c}'],
-				d: ['\\,d'],
- 				expect: ['\\mathbf{E}'],
- 				emf: ['\\mathscr{E}'],
- 				ft: ['\\mathcal{F}'],
- 				Lagrange: ['\\mathscr{L}'],
- 				naturals: ['\\mathbf{N}'],
- 				normal: ['\\mathcal{N}'],
- 				prob: ['\\mathbf{P}'],
- 				pset: ['\\mathcal{P}'],
- 				rationals: ['\\mathbf{Q}'],
- 				reals: ['\\mathbf{R}'],
- 				ereals: ['\\overline{\\mathbf{R}}'],
- 				risk: ['\\mathcal{R}'],
- 				integers: ['\\mathbf{Z}'],
- 				symdiff: ['\\,\\Delta\\,'],
- 				grad: ['\\nabla'],
- 				emptyset: ['\\varnothing'],
- 				ortho: ['{\\bot}'],
- 				deq: [':='],
- 				given: ['\\mid'],
- 				midgiven: ['\\;\\middle\\vert\\;'],
- 				set: ['\\{\\, #1 \\,\\}', 1],
- 				inner: ['\\langle#1,#2\\rangle', 2],
- 				ave: ['\\langle #1 \\rangle', 1],
- 				innerlr: ['\\left\\langle#1,#2\\right\\rangle', 2],
- 				avelr: ['\\left\\langle#1\\right\\rangle', 1],
- 				T: ['\\top'],
- 				abs: ['\\lvert#1\\rvert', 1],
- 				abslr:['\\left\\lvert#1\\right\\rvert', 1],
-				norm: ['\\lVert#1\\rVert', 1],
-				normlr: ['\\left\\lVert#1\\right\\rVert', 1],
-				zeronorm: ['\\norm{#1}_0', 1],
-				zeronormlr: ['\\normlr{#1}_0', 1],
-				onenorm: ['\\norm{#1}_1', 1],
-				onenormlr: ['\\normlr{#1}_1', 1],
-				twonorm: ['\\norm{#1}_2', 1],
-				twonormlr: ['\\normlr{#1}_2', 1],
-				inftynorm: ['\\norm{#1}_\\infty', 1],
-				inftynormlr: ['\\normlr{#1}_\\infty', 1],
-				pnorm: ['\\norm{#1}_p', 1],
-				pnormlr: ['\\normlr{#1}_p', 1],
-				Frobnorm: ['\\norm{#1}_\\mathrm{F}', 1],
-				Frobnormlr: ['\\normlr{#1}_\\mathrm{F}', 1],
-				maxnorm: ['\\norm{#1}_\\mathrm{max}', 1],
-				maxnormlr:  ['\\normlr{#1}_\\mathrm{max}', 1],
-				tvnorm: ['\\norm{#1}_\\mathrm{TV}', 1],
-				tvnormlr: ['\\normlr{#1}_\\mathrm{TV}', 1],
-				ind: ['\\mathbf{I}_{\\{ #1 \\} }', 1],
-				pind: ['\\mathbf{I}(#1)', 1],
-				argmin: ['\\mathop{\\mathrm{arg\\,min}}'],
-				argmax: ['\\mathop{\\mathrm{arg}\\,\\max}'],
-				bdiag: ['\\mathop{\\mathrm{bdiag}}'],
-				bd: ['\\mathop{\\mathrm{bd}}'],
-				comb: ['\\mathop{\\mathrm{comb}}'],
-				codom: ['\\mathop{\\mathrm{codim}}'],
-				diag: ['\\mathop{\\mathrm{diag}}'],
-				dom: ['\\mathop{\\mathrm{dom}}'],
-				epi: ['\\mathop{\\mathrm{epi}}'],
-				hard: ['\\mathop{\\mathrm{hard}}'],
-				interior: ['\\mathop{\\mathrm{int}}'],
-				MSE: ['\\mathop{\\mathrm{MSE}}'],
-				modop: ['\\mathop{\\mathrm{mod}}'],
-				minimize: ['\\mathop{\\mathrm{minimize}}'],
-				maximize: ['\\mathop{\\mathrm{maximize}}'],
-				midop: ['\\mathop{\\mathrm{mid}}'],
-				nint: ['\\mathop{\\mathrm{nint}}'],
-				pen: ['\\mathop{\\mathrm{pen}}'],
-				Poisson: ['\\mathop{\\mathrm{Poisson}}'],
-				rect: ['\\mathop{\\mathrm{rect}}'],
-				RMSE: ['\\mathop{\\mathrm{RMSE}}'],
-				range: ['\\mathop{\\mathrm{range}}'],
-				relint: ['\\mathop{\\mathrm{relint}}'],
-				rank: ['\\mathop{\\mathrm{rank}}'],
-				st: ['\\mathop{\\mathrm{subject\\ to}}'],
-				sinc: ['\\mathop{\\mathrm{sinc}}'],
-				sign: ['\\mathop{\\mathrm{sign}}'],
-				sgn: ['\\mathop{\\mathrm{sgn}}'],
-				soft: ['\\mathop{\\mathrm{soft}}'],
-				skewop: ['\\mathop{\\mathrm{skewop}}'],
-				symop: ['\\mathop{\\mathrm{symop}}'],
-				SNR: ['\\mathop{\\mathrm{SNR}}'],
-				spanop: ['\\mathop{\\mathrm{span}}'],
-				tr: ['\\mathop{\\mathrm{tr}}'],
-				var: ['\\mathop{\\mathrm{var}}'],
-				MinProb: ['\\begin{aligned}' +
-					'&\\minimize_{#1} & & {#2}' +
-					'\\end{aligned}', 2],	
-				ConMinProb: ['\\begin{aligned}' +
-					'&\\minimize_{#1} & & #2 \\\\' +
-					'&\\st & & #3' +
-					'\\end{aligned}', 3],
-				MaxProb: ['\\begin{aligned}' +
-					'&\\maximize_{#1} & & {#2}' +
-					'\\end{aligned}', 2],	
-				ConMaxProb: ['\\begin{aligned}' +
-					'&\\maximize_{#1} & & #2 \\\\' +
-					'&\\st & & #3' +
-					'\\end{aligned}', 3],
-				ArgMinProb: ['\\begin{aligned}' +
-					'#1 = &\\argmin_{#2} & & {#3}' +
-					'\\end{aligned}', 3],
-				ArgConMinProb: ['\\begin{aligned}' +
-					'#1 = &\\argmin_{#2} & & {#3} \\\\' +
-					'&\\st & & #4' +
-					'\\end{aligned}', 4],
-				ArgMaxProb: ['\\begin{aligned}' +
-					'#1 = &\\argmax_{#2} & & {#3}' +
-					'\\end{aligned}', 3],
-				ArgConMaxProb: ['\\begin{aligned}' +
-					'#1 = &\\argmax_{#2} & & {#3} \\\\' +
-					'&\\st & & #4' +
-					'\\end{aligned}', 4]
-	      }
-		},
-	"HTML-CSS": { availableFonts: ["TeX"] }
-	}
-);
-</script>
-<script type="text/javascript"
-src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  
-
-
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-60511380-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Pierangelo Cecchetto</a></h1>
-  
-    <h2>yet another blog about software (and baking)</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:pierangeloc.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Pierangelo Cecchetto]]></title>
+  <link href="http://pierangeloc.github.io/atom.xml" rel="self"/>
+  <link href="http://pierangeloc.github.io/"/>
+  <updated>2015-11-28T14:17:48+01:00</updated>
+  <id>http://pierangeloc.github.io/</id>
+  <author>
+    <name><![CDATA[Pierangelo Cecchetto]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/22/ride-the-camel-1/">Getting Started With Apache Camel</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2015-07-22T21:11:55+02:00" pubdate data-updated="true"></time>
-        
-         | <a href="/blog/2015/07/22/ride-the-camel-1/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Any application in an enterprise context, regardless how small this context might be, must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. Moreover, data typically undergo transformations, switching and routing logics before reaching other systems. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become an integration nightmare. <em>Enterprise Integration Patterns</em> (EIP) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see <a href="http://www.enterpriseintegrationpatterns.com">http://www.enterpriseintegrationpatterns.com</a>). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.</p>
+  <entry>
+    <title type="html"><![CDATA[Getting started with Apache Camel]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/07/22/ride-the-camel-1/"/>
+    <updated>2015-07-22T21:11:55+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/07/22/ride-the-camel-1</id>
+    <content type="html"><![CDATA[<p>Any application in an enterprise context, regardless how small this context might be, must relate with other systems. These systems might be File system, databases, webservices, message queues, logging systems, or systems using a particular communication protocol. Moreover, data typically undergo transformations, switching and routing logics before reaching other systems. The variety of combinations this allows is enormous, and tackling each of these in a hand made, custom way might easily become an integration nightmare. <em>Enterprise Integration Patterns</em> (EIP) establish a standard way to describe and identify the different approaches that one can follow to deal with an integration problem (see <a href="http://www.enterpriseintegrationpatterns.com">http://www.enterpriseintegrationpatterns.com</a>). They establish a common vocabulary that can be used unambiguously when talking about integration. If we consider that integration solutions are ubuquitous in application development, we realize easily how convenient it might be to have solid foundations on this subject.</p>
 
 <p><a href="http://camel.apache.org/">Apache Camel</a> is a framework that implements EIPs through a very expressive DSL, so one can translate almost immediately any EIP to a corresponding expression in the DSL. Moreover, Camel provides an extensible set of components that allows you to deal with basically any system that might come at hand. A key feature of Camel is that it deals with a <em>normalized message format</em>, so after the consumption point the message has a standard format, e.g. it can be handled identically either if it comes from consuming from a JMS queue or from a SOAP or REST webservice. </p>
 
@@ -873,44 +631,15 @@ For these cases the <code>CamelContext</code> provides with an instance of <code
 <p>In this post we just scraped the surface of Camel, and there is a lot more to discover. I will try in future posts to dive further into features of Camel that I find particularly interesting, e.g. the testing support, parallel processing features, integration with Akka.</p>
 
 <p>The way the Camel DSL is structured provides a way to write code in linear manner, making it easier to reason about, and even <em>visualize it</em> (through the DSL and through HawtIO which we will explore later), and it tackles the problems of modularity of an application. For example we could just split any processing flow in subroutes and replace only those when necessary, provided the structure of the <code>Exchange</code> up and downstream is preserverd. This also fits perfectly with the need of distributing work in a team without risking of stepping in each others’ toes. If we consider also that a very natural way of deploying routes is through OSGi bundles (this is the principle followed in  <a href="http://www.jboss.org/products/fuse/overview">JBoss Fuse</a>), we can see how allowing modularity is one of the core principles at the base of this project, and it has definitely been achieved.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/12/scalajs-for-dynamic-systems-simulation/">Scala.js for Dynamic Systems Simulation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-12T10:13:14+02:00" pubdate data-updated="true"></time>
-        
-         | <a href="/blog/2015/04/12/scalajs-for-dynamic-systems-simulation/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>After the Scaladays 2015 in SF, a lot of echo has involved the <a href="http://www.scala-js.org">Scala.js</a> framework. Scala.js compiles Scala code into Javascript code, which can be run in a browser but also on Javascript powered server environments e.g. Node.js.</p>
+  <entry>
+    <title type="html"><![CDATA[Scala.js for dynamic systems simulation]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/04/12/scalajs-for-dynamic-systems-simulation/"/>
+    <updated>2015-04-12T10:13:14+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/04/12/scalajs-for-dynamic-systems-simulation</id>
+    <content type="html"><![CDATA[<p>After the Scaladays 2015 in SF, a lot of echo has involved the <a href="http://www.scala-js.org">Scala.js</a> framework. Scala.js compiles Scala code into Javascript code, which can be run in a browser but also on Javascript powered server environments e.g. Node.js.</p>
 
 <p>Scala.js is not something like GWT, which provided a whole toolkit for Javascript code generation from Java. Scala.js is simply a compiler that translates Scala code into Javascript code. This allows to use all the great features that make Scala such a successful language, like strong typing, functional code, higher order functions, case classes, pattern matching, and even Future and Promises (when dealing e.g. with events on the client or with Ajax calls). 
 For some parts it is possible to develop code that is fully agnostic of the target platform, i.e. you can write some Scala code that can be executed equivalently on a JVM or on a browser when compiled with Scala.js. For the parts that deal with HTML elements or with Ajax, the target platform must be taken into consideration.
@@ -1067,7 +796,7 @@ The <code>Plot</code> class provides all the methods we need to deal with the wi
 The transformation from a <code>Point</code> to a <code>CanvasPoint</code> is performed by the <code>point2CanvasPoint(p: Point): CanvasPoint</code> function in the <code>Plot</code> class.
 A <code>drawGrid()</code> function uses <code>for</code> comprehensions to draw the grid on the window:</p>
 
-<p><img src="/images/posts/grid.png" alt="alt text" title="Grid on Canvas" /></p>
+<p><img src="http://pierangeloc.github.io/images/posts/grid.png" alt="alt text" title="Grid on Canvas" /></p>
 
 <p>To draw points on the canvas we simply draw little circles around each point, you can check the source code for the details.</p>
 
@@ -1175,12 +904,12 @@ If we represent our function $f$ as <code>f: Point =&gt; Point</code>, the whole
 <p>and pass this function to our <code>phasePortrait</code> that takes care of plotting the corresponding phase portrait in the given Canvas. Here are a couple of examples:</p>
 
 <p><strong>Pendulum</strong>
-<img src="/images/posts/pendulum.png" alt="alt text" title="Pendulum phase portrait" /></p>
+<img src="http://pierangeloc.github.io/images/posts/pendulum.png" alt="alt text" title="Pendulum phase portrait" /></p>
 
 <p>We can clearly identify the single orbits (from the given color). The further we move from the horizontal axis, the higher is the speed and therefore our samples are getting more sparse. An adaptive sampling algorithm would have helped us having a better drawing, but the essence of the implementation does not change.</p>
 
 <p><strong>Van der Pol</strong>
-<img src="/images/posts/vanDerPol.png" alt="alt text" title="Van der Pol equation phase portrait" /></p>
+<img src="http://pierangeloc.github.io/images/posts/vanDerPol.png" alt="alt text" title="Van der Pol equation phase portrait" /></p>
 
 <p>We can see that in this system all the orbits end up overlapping with a given, globally attracting, orbit. This is a clear phenomenom of <em>limit cycle</em>, examples of which we have also in the discrete world, e.g. in digital signal processing.</p>
 
@@ -1192,44 +921,15 @@ If we represent our function $f$ as <code>f: Point =&gt; Point</code>, the whole
 <p>The <code>evolution</code> function provided above can be used to simulate any system of dimension 2, and easily adapted to simulate any dynamic system described by a differential equation, even in the time-dependent case (it is sufficient to increase the dimension of one and obtain an equivalent autonomous system).</p>
 
 <p>The <code>Plot</code> class can be reused to plot any kind of curve on a given window on the Cartesian plane.  </p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/06/integrals-in-scala/">A Simple Scala Application: Calculating Integrals</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-06T20:57:33+02:00" pubdate data-updated="true"></time>
-        
-         | <a href="/blog/2015/04/06/integrals-in-scala/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I embraced functional programming through Scala starting with the great Marting Odersky’s course in Coursera, following with the Reactive Programming course in Coursera (a second edition of which will start shortly and I really recommend you to sign up and follow it), and later on working with Play framework and Akka streams.</p>
+  <entry>
+    <title type="html"><![CDATA[A simple Scala application: calculating integrals]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala/"/>
+    <updated>2015-04-06T20:57:33+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/04/06/integrals-in-scala</id>
+    <content type="html"><![CDATA[<p>I embraced functional programming through Scala starting with the great Marting Odersky’s course in Coursera, following with the Reactive Programming course in Coursera (a second edition of which will start shortly and I really recommend you to sign up and follow it), and later on working with Play framework and Akka streams.</p>
 
 <p>I spent a few years programming in Java in a purely imperative way, and as soon as I could understand the functional approach, I realized it is a great way to focus on the essence of the problem, and it provides a more organic way to decompose reasoning and handling complexity.</p>
 
@@ -1321,44 +1021,15 @@ This interpretation of the <code>map</code> function applies only to sequence-li
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>So we obtained quite simply, mapping directly the theoretical concepts down to language constructs, in 5 lines of code, a value pretty close to the real one. Consider how much verbosity and focus on the implementation details it would have taken having this implemented in Java or in any case in a procedural way. With Scala and in general with a functional approach we just focus on what we want to achieve, through which transformations, instead of focusing on the processing details. In this way we produce code that is more isolated, testable, and appliable in different contexts.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/08/price-of-locks/">Parallelizing Costs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-08T10:27:37+01:00" pubdate data-updated="true"></time>
-        
-         | <a href="/blog/2015/03/08/price-of-locks/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4 id="why-learning-concurrency">Why learning concurrency</h4>
+  <entry>
+    <title type="html"><![CDATA[Parallelizing costs]]></title>
+    <link href="http://pierangeloc.github.io/blog/2015/03/08/price-of-locks/"/>
+    <updated>2015-03-08T10:27:37+01:00</updated>
+    <id>http://pierangeloc.github.io/blog/2015/03/08/price-of-locks</id>
+    <content type="html"><![CDATA[<h4 id="why-learning-concurrency">Why learning concurrency</h4>
 <p>Studying for the OCP exam offers a nice opportunity to dive into one of the most important (and sometimes overlooked) aspects of the Java language and JVM: threads and concurrency frameworks.
 Before I never delved into the details about concurrency just because I have been working on a container (like Tomcat) or on a framework (like Apache Camel) that takes care of distributing load on a thread pool, and basically every request or every message processing can in 99% of cases be treated as a synchronous process, so I survived for many years without having a good understanding of how concurrency works in Java.</p>
 
@@ -1672,44 +1343,15 @@ Let’s first outline the different approaches used, then we will go through the
 <p>With <code>AtomicInteger</code> I was expecting a better performance than with the locking mechanism, but actually it got worse. This proves that when there is high contention on an object, also AtomicInteger is not a panacea.</p>
 
 <p>Among the parallelized approaches, the one that proved to work best is the Fork/Join, but in order to apply it we had to change the approach and get to adding the elements of an array.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some Notes About Java Certification Exam</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-22T21:37:45+02:00" pubdate data-updated="true"></time>
-        
-         | <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
+  <entry>
+    <title type="html"><![CDATA[Some notes about Java Certification exam]]></title>
+    <link href="http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam/"/>
+    <updated>2014-10-22T21:37:45+02:00</updated>
+    <id>http://pierangeloc.github.io/blog/2014/10/22/some-notes-about-java-certification-exam</id>
+    <content type="html"><![CDATA[<p>With this post I am starting my blog, and I dedicate it (like probably the next few ones) to topics I am encountering during the preparation of the Java Professional Certification exam.
 Even if you probably have been using Java for many years, Java certification offers an opportunity to discover details about the language and its features.
 In the following notes I am collecting a few points that I found at least not obvious, either because I never had the chance to look into them before, or because they showed some peculiar behavior worth keeping in mind. The following notes refer to Java 7.</p>
 
@@ -1775,136 +1417,7 @@ If the exception being rethrown is copied to a variable local to the <code>catch
 <p>this nice behavior of the compiler ceases to occur, so it will produce a compilation error.</p>
 
 <hr />
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/ride-the-camel-1/">Getting started with Apache Camel</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/12/scalajs-for-dynamic-systems-simulation/">Scala.js for dynamic systems simulation</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/06/integrals-in-scala/">A simple Scala application: calculating integrals</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/08/price-of-locks/">Parallelizing costs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/22/some-notes-about-java-certification-exam/">Some notes about Java Certification exam</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/pierangeloc">@pierangeloc</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'pierangeloc',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos',
-            blacklist: ''
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Pierangelo Cecchetto -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'pierangelosbakery';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
